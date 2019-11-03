@@ -2,6 +2,13 @@
 
 A python 3 script running on Raspberry Pi 4 that exposes handlers for Blynk.
 
+## Features
+
+- roller blind doing an up/downwards motion based on:
+  - a fixed position
+  - a fixed time
+  - sunrise & sunset
+
 ## Getting started
 
 The following pip packages are required:
