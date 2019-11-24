@@ -47,7 +47,7 @@ To create the service in systemd, copy the service file into the system folder:
 cp blynk.service /lib/systemd/system/blynk.service
 ```
 
-Reload the deamon to recognise the new service, then start the blynk service. Enabling the service is optional, this will make it start automatically on startup.
+Reload the daemon to recognise the new service, then start the blynk service. Enabling the service is optional, this will make it start automatically on startup.
 
 ```bash
 systemctl daemon-reload
