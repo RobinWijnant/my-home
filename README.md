@@ -11,6 +11,8 @@
 
 ## Getting started
 
+### Installation
+
 The following pip packages are required:
 
 ```bash
@@ -18,6 +20,16 @@ pip3 install python-dotenv blynklib RpiMotorLib RPi.GPIO
 ```
 
 > **Note:** RPi.GPIO is installed by default on a Raspberry Pi and is not installable on other devices
+
+### Environment
+
+Create a .env file in the root of the repository and set these variables:
+
+```env
+BLYNK_TOKEN=yourToken
+```
+
+### Running the script
 
 Run the main script:
 
