@@ -1,7 +1,7 @@
 import os
 import logging
 import blynklib
-from roller_blind import RollerBlind
+from roller_blind.roller_blind import RollerBlind
 
 blynk = blynklib.Blynk(os.getenv('BLYNK_TOKEN'))
 logger = logging.getLogger('blynk')
