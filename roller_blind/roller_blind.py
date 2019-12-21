@@ -1,6 +1,6 @@
 import RPi.GPIO as GPIO
 from RpiMotorLib import RpiMotorLib
-from digital_hall_sensor import DigitalHallSensor
+from roller_blind.digital_hall_sensor import DigitalHallSensor
 
 class RollerBlind:
 
