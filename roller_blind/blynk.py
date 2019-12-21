@@ -8,9 +8,13 @@ logger = logging.getLogger('blynk')
 roller_blind = RollerBlind()
 
 @blynk.handle_event('write V10')
-def write_virtual_pin_handler(pin, value):
+def update_position(pin, value):
     logger.info(f'Set new position: {value}%')
     roller_blind.roll(value)
+
+@blynk.handle_event('write V11')
+def calibrate(pin, value):
+    logger.info(f'Calibrate: {value}%')
 
 while True:
     blynk.run()
