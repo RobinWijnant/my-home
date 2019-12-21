@@ -1,6 +1,6 @@
 import RPi.GPIO as GPIO
 from RpiMotorLib import RpiMotorLib
-from hall_sensor import HallSensor
+from digital_hall_sensor import DigitalHallSensor
 
 class RollerBlind:
 
@@ -10,25 +10,27 @@ class RollerBlind:
   STEP_DRIVER = "DRV8825"
   HALL_SENSOR_49E = 26
 
-  step_type = "1/16"
-  steps_to_position_100 = 360 / 1.8 * 16 * 25
+  step_type = "1/8"
+  steps_to_position_100 = 360 / 1.8 * 8 * 25
+  step_delay = .00001
+  init_delay = .05
 
   def __init__(self):
     self.stepper = RpiMotorLib.A4988Nema(RollerBlind.STEP_DIRECTION_PIN, RollerBlind.STEP_PIN, RollerBlind.STEP_MODE_PINS, RollerBlind.STEP_DRIVER)
-    self.hall_sensor = HallSensor()
+    self.hall_sensor = DigitalHallSensor(self.HALL_SENSOR_49E)
     self.position = 0 # [0,100]
     self.magnetic_strength = 0 # [0,100]
     self.calibrate()
 
   def calibrate(self):
-    while(self.hall_sensor.read_strength() < 50):
+    while(self.hall_sensor.detect()):
       self.stepper.motor_go(
         clockwise=False,
         steptype=self.step_type,
         steps=200,
-        stepdelay=.005,
+        stepdelay=self.step_delay,
         verbose=False,
-        initdelay=.05
+        initdelay=self.init_delay
       )
     self.position = 0
 
@@ -44,10 +46,10 @@ class RollerBlind:
       self.stepper.motor_go(
         clockwise=False,
         steptype=self.step_type,
-        steps=200,
-        stepdelay=.005,
+        steps=self._convert_position_diff_to_steps(position_diff),
+        stepdelay=self.step_delay,
         verbose=False,
-        initdelay=.05
+        initdelay=self.init_delay
       )
       self.position = position - position_diff
 
@@ -57,10 +59,10 @@ class RollerBlind:
       self.stepper.motor_go(
         clockwise=True,
         steptype=self.step_type,
-        steps=200,
-        stepdelay=.005,
+        steps=self._convert_position_diff_to_steps(position_diff),
+        stepdelay=self.step_delay,
         verbose=False,
-        initdelay=.05
+        initdelay=self.init_delay
       )
       self.position = self.position + position_diff
 
