@@ -1,10 +1,11 @@
-import RPi.GPIO as gpio
+import RPi.GPIO as GPIO
 
 class DigitalHallSensor():
 
     def __init__(self, pin):
         self.pin = pin
-        gpio.setup(pin, gpio.IN)
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(pin, GPIO.IN)
 
     def detect(self):
-        return gpio.input(self.pin)
+        return not GPIO.input(self.pin)

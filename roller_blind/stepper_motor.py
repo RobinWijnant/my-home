@@ -3,7 +3,7 @@ from RpiMotorLib import RpiMotorLib
 class StepperMotor:
 
   DRIVER = "DRV8825"
-  INIT_DELAY = .05
+  INIT_DELAY = 0
 
   def __init__(self, direction_pin, step_pin, mode_pins):
     self.step_mode = "1/8"
