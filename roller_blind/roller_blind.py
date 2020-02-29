@@ -1,12 +1,19 @@
-from roller_blind.stepper_motor import StepperMotor
+from enum import Enum
+
 from roller_blind.digital_hall_sensor import DigitalHallSensor
+from roller_blind.stepper_motor import StepperMotor
+
+
+class RollDirection(Enum):
+  UP = True
+  DOWN = False
 
 class RollerBlind:
 
   STEP_MODE_PINS = (14, 15, 18)
-  STEP_DIRECTION_PIN = 20
-  STEP_PIN = 21
-  HALL_SENSOR_49E_PIN = 26
+  STEP_DIRECTION_PIN = 23
+  STEP_PIN = 24
+  HALL_SENSOR_49E_PIN = 25
 
   rotations_until_down = 25
 
@@ -17,7 +24,7 @@ class RollerBlind:
 
   def calibrate(self):
     while(not self.hall_sensor.detect()):
-      self.stepper.go(self._convert_position_diff_to_steps(1), True)
+      self.stepper.go(self._convert_position_diff_to_steps(1), RollDirection.UP)
     self.position = 0
 
   def roll(self, position):
@@ -29,13 +36,13 @@ class RollerBlind:
   def _roll_up(self, position):
     position_diff = 1
     while(position < self.position):
-      self.stepper.go(self._convert_position_diff_to_steps(position_diff), True)
+      self.stepper.go(self._convert_position_diff_to_steps(position_diff), RollDirection.UP)
       self.position = self.position - position_diff
 
   def _roll_down(self, position):
     position_diff = 1
     while(position > self.position):
-      self.stepper.go(self._convert_position_diff_to_steps(position_diff), False)
+      self.stepper.go(self._convert_position_diff_to_steps(position_diff), RollDirection.DOWN)
       self.position = self.position + position_diff
 
   def _convert_position_diff_to_steps(self, position_diff):
