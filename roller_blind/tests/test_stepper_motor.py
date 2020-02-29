@@ -1,8 +1,8 @@
 from roller_blind.stepper_motor import StepperMotor
 
 STEP_MODE_PINS = (14, 15, 18)
-DIRECTION_PIN= 20
-STEP_PIN = 21
+DIRECTION_PIN= 23
+STEP_PIN = 24
 
 stepper = StepperMotor(DIRECTION_PIN, STEP_PIN, STEP_MODE_PINS)
 
