@@ -3,3 +3,4 @@
 **__pycache__**
 .vscode
 ssh-sync.sh
+.DS_STORE
