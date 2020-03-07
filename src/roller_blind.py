@@ -36,19 +36,16 @@ class RollerBlind:
       self._roll_down(position)
     else:
       self._roll_up(position)
+    self.position = position
     self.stepper.set_sleep(True)
 
   def _roll_up(self, position):
-    position_diff = 1
-    while(position < self.position):
-      self.stepper.go(self._convert_position_diff_to_steps(position_diff), RollDirection.UP.value)
-      self.position = self.position - position_diff
-
+    position_diff = self.position - position
+    self.stepper.go(self._convert_position_diff_to_steps(position_diff), RollDirection.UP.value)
+    
   def _roll_down(self, position):
-    position_diff = 1
-    while(position > self.position):
-      self.stepper.go(self._convert_position_diff_to_steps(position_diff), RollDirection.DOWN.value)
-      self.position = self.position + position_diff
+    position_diff = position - self.position
+    self.stepper.go(self._convert_position_diff_to_steps(position_diff), RollDirection.DOWN.value)
 
   def _convert_position_diff_to_steps(self, position_diff):
     steps_for_1_rotation = 360 / 1.8 * self.stepper.get_step_mode_multiplier()
