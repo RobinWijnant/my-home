@@ -24,7 +24,7 @@ class RollerBlind:
 
   def calibrate(self):
     while(not self.hall_sensor.detect()):
-      self.stepper.go(self._convert_position_diff_to_steps(1), RollDirection.UP)
+      self.stepper.go(self._convert_position_diff_to_steps(1), RollDirection.UP.value)
     self.position = 0
 
   def roll(self, position):
@@ -36,13 +36,13 @@ class RollerBlind:
   def _roll_up(self, position):
     position_diff = 1
     while(position < self.position):
-      self.stepper.go(self._convert_position_diff_to_steps(position_diff), RollDirection.UP)
+      self.stepper.go(self._convert_position_diff_to_steps(position_diff), RollDirection.UP.value)
       self.position = self.position - position_diff
 
   def _roll_down(self, position):
     position_diff = 1
     while(position > self.position):
-      self.stepper.go(self._convert_position_diff_to_steps(position_diff), RollDirection.DOWN)
+      self.stepper.go(self._convert_position_diff_to_steps(position_diff), RollDirection.DOWN.value)
       self.position = self.position + position_diff
 
   def _convert_position_diff_to_steps(self, position_diff):
