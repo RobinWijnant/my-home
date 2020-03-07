@@ -13,7 +13,7 @@ class RollerBlind:
   STEP_MODE_PINS = (14, 15, 18)
   STEP_DIRECTION_PIN = 23
   STEP_PIN = 24
-  SLEEP_PIN = 2
+  SLEEP_PIN = 17
   HALL_SENSOR_49E_PIN = 25
 
   rotations_until_down = 400
