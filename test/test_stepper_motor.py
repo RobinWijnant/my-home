@@ -12,7 +12,7 @@ class StepperMotorTest(unittest.TestCase):
     def setUp(self):
         self.stepper = StepperMotor(DIRECTION_PIN, STEP_PIN, STEP_MODE_PINS)
 
-    def tearDownModule(self):
+    def tearDown(self):
         time.sleep(1)
 
     def test_stepper_clockwise(self):
