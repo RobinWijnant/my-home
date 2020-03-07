@@ -1,9 +1,16 @@
 import time
-from roller_blind.digital_hall_sensor import DigitalHallSensor
+import unittest
 
-SENSOR_PIN = 26
-sensor = DigitalHallSensor(SENSOR_PIN)
+from src.digital_hall_sensor import DigitalHallSensor
 
-while True:
-    print(sensor.detect())
-    time.sleep(1)
+SENSOR_PIN = 25
+
+class StepperMotorTest(unittest.TestCase):
+
+    def setUp(self):
+        self.sensor = DigitalHallSensor(SENSOR_PIN)
+
+    def test_listen(self):
+        while True:
+            print(self.sensor.detect())
+            time.sleep(1)
