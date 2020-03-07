@@ -12,6 +12,7 @@ class StepperMotor:
     self.step_mode = "1/8"
     self.stepper = RpiMotorLib.A4988Nema(direction_pin, step_pin, mode_pins, StepperMotor.DRIVER)
     self.sleep_pin = sleep_pin
+    GPIO.setup(self.sleep_pin, GPIO.OUT)
     GPIO.output(self.sleep_pin, GPIO.LOW)
 
   def go(self, steps, is_clockwise):
