@@ -12,14 +12,15 @@ class RollerBlind:
 
   STEP_MODE_PINS = (14, 15, 18)
   STEP_DIRECTION_PIN = 23
-  STEP_PIN = 24
-  SLEEP_PIN = 17
-  HALL_SENSOR_49E_PIN = 25
+  STEP_STEP_PIN = 24
+  STEP_SLEEP_PIN = 17
 
-  rotations_until_down = 400
+  HALL_SENSOR_49E_PIN = 25
+  
+  ROTATIONS_UNTIL_DOWN = 400
 
   def __init__(self):
-    self.stepper = StepperMotor(RollerBlind.STEP_DIRECTION_PIN, RollerBlind.STEP_PIN, RollerBlind.STEP_MODE_PINS, RollerBlind.SLEEP_PIN)
+    self.stepper = StepperMotor(RollerBlind.STEP_DIRECTION_PIN, RollerBlind.STEP_STEP_PIN, RollerBlind.STEP_MODE_PINS, RollerBlind.STEP_SLEEP_PIN)
     self.hall_sensor = DigitalHallSensor(RollerBlind.HALL_SENSOR_49E_PIN)
     self.position = 0 # [0,100]
 
@@ -49,5 +50,5 @@ class RollerBlind:
 
   def _convert_position_diff_to_steps(self, position_diff):
     steps_for_1_rotation = 360 / 1.8 * self.stepper.get_step_mode_multiplier()
-    steps_to_position_100 = steps_for_1_rotation * RollerBlind.rotations_until_down
+    steps_to_position_100 = steps_for_1_rotation * RollerBlind.ROTATIONS_UNTIL_DOWN
     return int(steps_to_position_100 / 100 * position_diff)
