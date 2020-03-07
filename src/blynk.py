@@ -11,6 +11,7 @@ roller_blind = RollerBlind()
 
 @blynk.handle_event('write V10')
 def handle_update_position(pin, value):
+    logger.info(pin)
     logger.info(f'Setting new position ({value[0]}%)...')
     roller_blind.roll(int(value[0]))
     logger.info('New position reached')
