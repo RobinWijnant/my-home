@@ -1,15 +1,20 @@
 from RpiMotorLib import RpiMotorLib
 
+import RPi.GPIO as GPIO
+
+
 class StepperMotor:
 
   DRIVER = "DRV8825"
   INIT_DELAY = 0
 
-  def __init__(self, direction_pin, step_pin, mode_pins):
+  def __init__(self, direction_pin, step_pin, mode_pins, sleep_pin):
     self.step_mode = "1/8"
     self.stepper = RpiMotorLib.A4988Nema(direction_pin, step_pin, mode_pins, StepperMotor.DRIVER)
+    self.sleep_pin = sleep_pin
 
   def go(self, steps, is_clockwise):
+    GPIO.output(self.sleep_pin, GPIO.HIGH)
     self.stepper.motor_go(
       clockwise=is_clockwise,
       steptype=self.step_mode,
@@ -17,7 +22,9 @@ class StepperMotor:
       stepdelay=self._get_step_delay(),
       verbose=False,
       initdelay=StepperMotor.INIT_DELAY
-  )
+    )
+    GPIO.output(self.sleep_pin, GPIO.LOW)
+    GPIO.cleanup()
 
   def _get_step_delay(self):
     if (self.step_mode == "1/32"):
