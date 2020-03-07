@@ -1,9 +1,11 @@
 from dotenv import load_dotenv
-load_dotenv()
 
 import logger
 
+load_dotenv()
+
+
 try:
-    import roller_blind.blynk
+    import src.blynk
 except KeyboardInterrupt:
     print()
