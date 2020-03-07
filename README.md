@@ -54,3 +54,17 @@ systemctl daemon-reload
 systemctl start blynk
 systemctl enable blynk
 ```
+
+## Running test files
+
+This project uses the unittest module to run tests. There are no additional packages needed to install. Use the following command to run all tests:
+
+```bash
+python3 -m unittest discover -s ./test
+```
+
+Run a single test
+
+```bash
+python3 -m unittest ./test/test_stepper_motor.py
+```
