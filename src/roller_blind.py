@@ -13,12 +13,13 @@ class RollerBlind:
   STEP_MODE_PINS = (14, 15, 18)
   STEP_DIRECTION_PIN = 23
   STEP_PIN = 24
+  SLEEP_PIN = 2
   HALL_SENSOR_49E_PIN = 25
 
   rotations_until_down = 25
 
   def __init__(self):
-    self.stepper = StepperMotor(RollerBlind.STEP_DIRECTION_PIN, RollerBlind.STEP_PIN, RollerBlind.STEP_MODE_PINS)
+    self.stepper = StepperMotor(RollerBlind.STEP_DIRECTION_PIN, RollerBlind.STEP_PIN, RollerBlind.STEP_MODE_PINS, RollerBlind.SLEEP_PIN)
     self.hall_sensor = DigitalHallSensor(RollerBlind.HALL_SENSOR_49E_PIN)
     self.position = 0 # [0,100]
 
