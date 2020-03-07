@@ -12,6 +12,7 @@ class StepperMotor:
     self.step_mode = "1/8"
     self.stepper = RpiMotorLib.A4988Nema(direction_pin, step_pin, mode_pins, StepperMotor.DRIVER)
     self.sleep_pin = sleep_pin
+    GPIO.output(self.sleep_pin, GPIO.LOW)
 
   def go(self, steps, is_clockwise):
     GPIO.output(self.sleep_pin, GPIO.HIGH)
@@ -24,7 +25,6 @@ class StepperMotor:
       initdelay=StepperMotor.INIT_DELAY
     )
     GPIO.output(self.sleep_pin, GPIO.LOW)
-    GPIO.cleanup()
 
   def _get_step_delay(self):
     if (self.step_mode == "1/32"):
