@@ -11,6 +11,9 @@ class StepperMotorTest(unittest.TestCase):
         self.sensor = DigitalHallSensor(SENSOR_PIN)
 
     def test_listen(self):
-        while True:
-            print(self.sensor.detect())
-            time.sleep(1)
+        try:
+            while True:
+                print(self.sensor.detect())
+                time.sleep(1)
+        except KeyboardInterrupt:
+            pass
