@@ -15,18 +15,12 @@ def handle_update_position(pin, value):
     roller_blind.roll(int(value[0]))
     logger.info('New position reached')
 
-def calibrate():
-    logger.info('Calibrating...')
-    roller_blind.calibrate()
-    logger.info('Calibration completed')
-
 @blynk.handle_event('write V11')
 def handle_calibrate(pin, value):
     if (not int(value[0])): return
-    calibrate()
-
-calibrate()
-blynk.virtual_write('V10', 0)
+    logger.info('Calibrating...')
+    roller_blind.calibrate()
+    logger.info('Calibration completed')
 
 while True:
     blynk.run()
