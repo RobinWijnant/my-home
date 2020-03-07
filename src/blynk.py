@@ -20,6 +20,7 @@ def handle_calibrate(pin, value):
     if (not int(value[0])): return
     logger.info('Calibrating...')
     roller_blind.calibrate()
+    blynk.virtual_write('V10', roller_blind.position)
     logger.info('Calibration completed')
 
 while True:
