@@ -1,7 +1,7 @@
 import time
 import unittest
 
-from ..stepper_motor import StepperMotor
+from src.stepper_motor import StepperMotor
 
 STEP_MODE_PINS = (14, 15, 18)
 DIRECTION_PIN= 23
@@ -22,6 +22,3 @@ class StepperMotorTest(unittest.TestCase):
 
         self.stepper.step_mode = step_mode
         self.stepper.go(steps, is_clockwise)
-
-if __name__ == '__main__':
-    unittest.main()
