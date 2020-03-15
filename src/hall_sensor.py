@@ -17,4 +17,4 @@ class HallSensor:
 
     def detect(self):
         value = self.read_strength()
-        return value < 21.5 | value > 23.5
+        return value < 21.5 or value > 23.5
