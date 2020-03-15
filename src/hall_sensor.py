@@ -13,4 +13,4 @@ class HallSensor:
         self.channel = AnalogIn(ads, ADS.P0)
 
     def read_strength(self):
-        return self.channel.value / math.pow(2, 16) * 100 # [0,100]
+        return self.channel.value / math.pow(2, 16) * 200 # [0,100]
