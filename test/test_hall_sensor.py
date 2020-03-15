@@ -1,20 +1,20 @@
 import time
+import unittest
+
 import board
-import busio
-import adafruit_ads1x15.ads1015 as ADS
-from adafruit_ads1x15.analog_in import AnalogIn
+from src.hall_sensor import HallSensor
 
-i2c = busio.I2C(board.SCL, board.SDA)
-ads = ADS.ADS1115(i2c)
+time.sleep(0.5)
 
-# Create single-ended input on channel 0
-channel = AnalogIn(ads, ADS.P0)
+class HallSensorTest(unittest.TestCase):
 
-# Create differential input between channel 0 and 1
-#chan = AnalogIn(ads, ADS.P0, ADS.P1)
+    def setUp(self):
+        self.sensor = HallSensor(board.scl, board.sda)
 
-print("{:>5}\t{:>5}".format('raw', 'v'))
-
-while True:
-    print("{:>5}\t{:>5.3f}".format(channel.value, channel.voltage))
-    time.sleep(0.5)
+    def test_read_strength(self):
+        try:
+            while True:
+                print(self.sensor.read_strength())
+                time.sleep(0.5)
+        except KeyboardInterrupt:
+            pass

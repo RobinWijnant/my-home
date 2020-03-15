@@ -1,6 +1,7 @@
 import RPi.GPIO as GPIO
 
-class DigitalHallSensor():
+
+class DigitalHallSensor:
 
     def __init__(self, pin):
         self.pin = pin

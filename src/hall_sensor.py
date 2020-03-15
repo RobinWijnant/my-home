@@ -1,13 +1,14 @@
 import math
-import board
-import busio
+
 import adafruit_ads1x15.ads1015 as ADS
+import busio
 from adafruit_ads1x15.analog_in import AnalogIn
 
-class HallSensor():
 
-    def __init__(self):
-        i2c = busio.I2C(board.SCL, board.SDA)
+class HallSensor:
+
+    def __init__(self, scl_pin, sda_pin):
+        i2c = busio.I2C(scl_pin, sda_pin)
         ads = ADS.ADS1115(i2c)
         self.channel = AnalogIn(ads, ADS.P0)
 
