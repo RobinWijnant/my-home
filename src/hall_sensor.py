@@ -9,7 +9,7 @@ class HallSensor:
 
     def __init__(self, scl_pin, sda_pin):
         i2c = busio.I2C(scl_pin, sda_pin)
-        ads = ADS.ADS1115(i2c)
+        ads = ADS.ADS1015(i2c)
         self.channel = AnalogIn(ads, ADS.P0)
 
     def read_strength(self):
