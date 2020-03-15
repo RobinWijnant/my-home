@@ -9,7 +9,7 @@ time.sleep(0.5)
 class HallSensorTest(unittest.TestCase):
 
     def setUp(self):
-        self.sensor = HallSensor(board.scl, board.sda)
+        self.sensor = HallSensor(board.SCL, board.SDA)
 
     def test_read_strength(self):
         try:
