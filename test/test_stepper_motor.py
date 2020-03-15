@@ -6,11 +6,12 @@ from src.stepper_motor import StepperMotor
 STEP_MODE_PINS = (14, 15, 18)
 DIRECTION_PIN= 23
 STEP_PIN = 24
+SLEEP_PIN = 17
 
 class StepperMotorTest(unittest.TestCase):
 
     def setUp(self):
-        self.stepper = StepperMotor(DIRECTION_PIN, STEP_PIN, STEP_MODE_PINS)
+        self.stepper = StepperMotor(DIRECTION_PIN, STEP_PIN, STEP_MODE_PINS, SLEEP_PIN)
 
     def tearDown(self):
         time.sleep(1)
