@@ -11,10 +11,10 @@ class HallSensorTest(unittest.TestCase):
     def setUp(self):
         self.sensor = HallSensor(board.SCL, board.SDA)
 
-    def test_read_strength(self):
+    def test_detect(self):
         try:
             while True:
-                print(self.sensor.read_strength())
+                print(self.sensor.detect())
                 time.sleep(0.5)
         except KeyboardInterrupt:
             pass
