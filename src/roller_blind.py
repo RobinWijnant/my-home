@@ -20,7 +20,7 @@ class RollerBlind:
 
   def __init__(self):
     self.stepper = StepperMotor(RollerBlind.STEP_DIRECTION_PIN, RollerBlind.STEP_STEP_PIN, RollerBlind.STEP_MODE_PINS, RollerBlind.STEP_SLEEP_PIN)
-    self.hall_sensor = HallSensor(board.SDA, board.SCL)
+    self.hall_sensor = HallSensor(board.SCL, board.SDA)
     self.position = 0 # [0,100]
 
   def calibrate(self):
