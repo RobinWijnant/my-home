@@ -14,3 +14,7 @@ class HallSensor:
 
     def read_strength(self):
         return self.channel.value / math.pow(2, 16) * 100 # [0,100]
+
+    def detect(self):
+        value = self.read_strength()
+        return value < 21.5 | value > 23.5
