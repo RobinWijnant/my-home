@@ -27,7 +27,7 @@ class RollerBlind:
   def calibrate(self):
     self.stepper.set_sleep(False)
     while(not self.hall_sensor.detect()):
-      self.stepper.go(self._convert_position_diff_to_steps(1), RollDirection.UP.value)
+      self.stepper.go(self._convert_position_diff_to_steps(0.1), RollDirection.UP.value)
     self.position = 0
     self.stepper.set_sleep(True)
 
