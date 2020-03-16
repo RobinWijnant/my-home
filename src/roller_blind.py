@@ -41,16 +41,10 @@ class RollerBlind:
 
   def _roll_up(self, position):
     position_diff = self.position - position
-    if (position_diff < 0):
-      self.position = position
-      position_diff = self.position - position
     self.stepper.go(self._convert_position_diff_to_steps(position_diff), RollDirection.UP.value)
     
   def _roll_down(self, position):
     position_diff = position - self.position
-    if (position_diff < 0):
-      self.position = position
-      position_diff = position - self.position
     self.stepper.go(self._convert_position_diff_to_steps(position_diff), RollDirection.DOWN.value)
 
   def _convert_position_diff_to_steps(self, position_diff):
