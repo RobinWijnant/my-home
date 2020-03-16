@@ -64,4 +64,4 @@ try:
 except KeyboardInterrupt:
     print()
     blynk.disconnect()
-    logger.warn('Script interrupted by user')
+    logger.warning('Script interrupted by user')
