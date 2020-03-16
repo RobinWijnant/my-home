@@ -21,5 +21,7 @@ class StepperMotorTest(unittest.TestCase):
         is_clockwise = True
         steps = 10000
 
+        self.stepper.set_sleep(False)
         self.stepper.step_mode = step_mode
         self.stepper.go(steps, is_clockwise)
+        self.stepper.set_sleep(True)
