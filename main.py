@@ -37,6 +37,7 @@ def handle_update_position(pin, value):
     if (has_synced[VirtualPin.POSITION.value] == False):
         roller_blind.position = value
         has_synced[VirtualPin.POSITION.value] = True
+        logger.info(f'New position set ({value[0]}%)')
         return
 
     logger.info(f'Setting new position ({value[0]}%)...')
