@@ -35,9 +35,8 @@ def handle_connect():
 @blynk.handle_event('write V10')
 def handle_update_position(pin, value):
     if (has_synced[VirtualPin.POSITION.value] == False):
-        roller_blind.position = value
+        roller_blind.position = int(value[0])
         has_synced[VirtualPin.POSITION.value] = True
-        logger.info(f'new inc: {value}')
         logger.info(f'New position set ({value[0]}%)')
         return
 
