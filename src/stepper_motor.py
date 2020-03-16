@@ -33,16 +33,16 @@ class StepperMotor:
 
   def _get_step_delay(self):
     if (self.step_mode == "1/32"):
-      return 0.0001
+      return 0.000000000000001
     if (self.step_mode == "1/16"):
-      return 0.0001
+      return 0.000000000000001
     if (self.step_mode == "1/8"):
-      return 0.0001
+      return 0.000000001
     if (self.step_mode == "1/4"):
-      return 0.0001
+      return 0.000004
     if (self.step_mode == "Half"):
-      return 0.001
-    return 0.01
+      return 0.00002
+    return 0.0005
 
   def get_step_mode_multiplier(self):
     if (self.step_mode == "1/32"):
