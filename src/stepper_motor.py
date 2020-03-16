@@ -9,7 +9,7 @@ class StepperMotor:
   INIT_DELAY = 0
 
   def __init__(self, direction_pin, step_pin, mode_pins, sleep_pin):
-    self.step_mode = "1/16"
+    self.step_mode = "1/32"
     self.stepper = RpiMotorLib.A4988Nema(direction_pin, step_pin, mode_pins, StepperMotor.DRIVER)
     self.sleep_pin = sleep_pin
     GPIO.setup(self.sleep_pin, GPIO.OUT)
