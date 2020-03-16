@@ -62,5 +62,6 @@ try:
     while True:
         blynk.run()
 except KeyboardInterrupt:
+    print()
     blynk.disconnect()
-    print('Script interrupted by user')
+    logger.warn('Script interrupted by user')
