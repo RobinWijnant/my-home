@@ -44,7 +44,7 @@ def handle_update_position(pin, value):
 
     logger.info(f'Setting new position ({value[0]}%)...')
     future = executor.submit(roller_blind.roll, int(value[0]))
-    future.add_done_callback(lambda: logger.info('New position reached'))
+    future.add_done_callback(lambda future: logger.info('New position reached'))
 
 @blynk.handle_event('write V11')
 def handle_calibrate(pin, value):
