@@ -51,9 +51,9 @@ def handle_calibrate(pin, value):
     if (not int(value[0])): return
 
     logger.info('Calibrating...')
-    roller_blind.calibrate()
+    future = executor.submit(roller_blind.calibrate)
+    future.add_done_callback(lambda future: logger.info('Calibration completed'))
     blynk.virtual_write(VirtualPin.POSITION.value, roller_blind.position)
-    logger.info('Calibration completed')
 
 @blynk.handle_event("disconnect")
 def handle_disconnect():
