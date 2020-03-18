@@ -43,8 +43,8 @@ def handle_update_position(pin, value):
         return
 
     logger.info(f'Setting new position ({value[0]}%)...')
-    executor.submit(roller_blind.roll, int(value[0]))
-    logger.info('New position reached')
+    future = executor.submit(roller_blind.roll, int(value[0]))
+    future.add_done_callback(lambda: logger.info('New position reached'))
 
 @blynk.handle_event('write V11')
 def handle_calibrate(pin, value):
@@ -64,6 +64,7 @@ def handle_disconnect():
 try:
     while True:
         blynk.run()
+
 except KeyboardInterrupt:
     print()
     executor.shutdown()
