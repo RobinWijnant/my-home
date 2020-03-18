@@ -1,5 +1,6 @@
 import logging
 import os
+from concurrent.futures import ThreadPoolExecutor
 from enum import Enum
 
 import blynklib
@@ -15,6 +16,7 @@ class VirtualPin(Enum):
 load_dotenv()
 blynk = blynklib.Blynk(os.getenv('BLYNK_TOKEN'))
 logger = logging.getLogger('blynk')
+executor = ThreadPoolExecutor(max_workers=1)
 roller_blind = RollerBlind()
 has_synced = {
     VirtualPin.POSITION.value: False,
@@ -41,7 +43,7 @@ def handle_update_position(pin, value):
         return
 
     logger.info(f'Setting new position ({value[0]}%)...')
-    roller_blind.roll(int(value[0]))
+    executor.submit(roller_blind.roll, int(value[0]))
     logger.info('New position reached')
 
 @blynk.handle_event('write V11')
@@ -64,5 +66,6 @@ try:
         blynk.run()
 except KeyboardInterrupt:
     print()
+    executor.shutdown()
     blynk.disconnect()
     logger.warning('Script interrupted by user')
