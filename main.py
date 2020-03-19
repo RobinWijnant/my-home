@@ -25,7 +25,6 @@ roller_blind = RollerBlind()
 should_roll_daily = False
 pin_sync_status = {
     VirtualPin.POSITION.value: False,
-    VirtualPin.TOGGLE_DAILY_ROLL.value: False
 }
 
 def do_daily_roll(direction_up):
@@ -93,7 +92,7 @@ def handle_toggle_daily_roll(pin, value):
 
 @blynk.handle_event('write V13')
 def handle_time(pin, value):
-    if (pin_sync_status[VirtualPin.TOGGLE_DAILY_ROLL.value] and not should_roll_daily): return
+    if (not should_roll_daily): return
     schedule.clear('daily-roll')
 
     if (int(value[0])):
