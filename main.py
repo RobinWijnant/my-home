@@ -20,7 +20,7 @@ blynk = blynklib.Blynk(os.getenv('BLYNK_TOKEN'))
 logger = logging.getLogger('blynk')
 executor = ThreadPoolExecutor(max_workers=1)
 roller_blind = RollerBlind()
-
+should_roll_daily = False
 has_synced = {
     VirtualPin.POSITION.value: False,
 }
@@ -30,9 +30,10 @@ def do_daily_roll(direction_up):
         logger.info(f'Daily roll up starting...')
         future = executor.submit(roller_blind.roll, 0)
         future.add_done_callback(lambda future: logger.info('Daily roll up finished'))
-    logger.info(f'Daily roll down starting...')
-    future = executor.submit(roller_blind.roll, 100)
-    future.add_done_callback(lambda future: logger.info('Daily roll down finished'))
+    else:
+        logger.info(f'Daily roll down starting...')
+        future = executor.submit(roller_blind.roll, 100)
+        future.add_done_callback(lambda future: logger.info('Daily roll down finished'))
 
 def int_to_time(value):
     hours = value / 60 / 60
@@ -74,8 +75,20 @@ def handle_calibrate(pin, value):
     future.add_done_callback(lambda future: logger.info('Calibration completed'))
     blynk.virtual_write(VirtualPin.POSITION.value, roller_blind.position)
 
+@blynk.handle_event('write V12')
+def handle_toggle_daily_roll(pin, value):
+    if (bool(value[0])):
+        should_roll_daily = True
+        logger.info('Daily roll activated')
+
+    if (not bool(value[0])):
+        should_roll_daily = False
+        schedule.clear('daily-roll')
+        logger.info('Daily roll deactivated')
+
 @blynk.handle_event('write V13')
 def handle_time(pin, value):
+    if (not should_roll_daily): return
     schedule.clear('daily-roll')
 
     if (int(value[0])):
