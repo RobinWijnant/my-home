@@ -79,10 +79,14 @@ def handle_time(pin, value):
     schedule.clear('daily-roll')
 
     if (int(value[0])):
-        schedule.every().day.at(int_to_time(int(value[0]))).do(do_daily_roll, True).tag('daily-roll')
-        
+        time = int_to_time(int(value[0]))
+        schedule.every().day.at(time).do(do_daily_roll, True).tag('daily-roll')
+        logger.info(f'Daily roll up set to {time}')
+
     if (int(value[1])):
-        schedule.every().day.at(int_to_time(int(value[1]))).do(do_daily_roll, False).tag('daily-roll')
+        time = int_to_time(int(value[1]))
+        schedule.every().day.at(time).do(do_daily_roll, False).tag('daily-roll')
+        logger.info(f'Daily roll down set to {time}')
 
 @blynk.handle_event("disconnect")
 def handle_disconnect():
