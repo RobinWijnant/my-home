@@ -83,6 +83,7 @@ def handle_toggle_daily_roll(pin, value):
     if (int(value[0])):
         should_roll_daily = True
         blynk.virtual_sync(VirtualPin.DAILY_ROLL_TIME.value)
+        blynk.read_response(timeout=0.5)
         logger.info('Daily roll activated')
 
     if (not int(value[0])):
