@@ -35,8 +35,8 @@ def do_daily_roll(direction_up):
     future.add_done_callback(lambda future: logger.info('Daily roll down finished'))
 
 def int_to_time(value):
-    hours = value / 60
-    minutes = value % 60
+    hours = value / 60 / 60
+    minutes = value / 60 % 60
     print(f'{int(hours)}:{int(minutes)}')
     return f'{int(hours)}:{int(minutes)}'
 
