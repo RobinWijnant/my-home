@@ -13,6 +13,7 @@ from src.roller_blind import RollerBlind
 
 class VirtualPin(Enum):
     POSITION = 10
+    TOGGLE_DAILY_ROLL = 12
 
 load_dotenv()
 
@@ -21,8 +22,9 @@ logger = logging.getLogger('blynk')
 executor = ThreadPoolExecutor(max_workers=1)
 roller_blind = RollerBlind()
 should_roll_daily = False
-has_synced = {
+pin_sync_status = {
     VirtualPin.POSITION.value: False,
+    VirtualPin.TOGGLE_DAILY_ROLL.value: False
 }
 
 def do_daily_roll(direction_up):
@@ -56,9 +58,9 @@ def handle_connect():
 
 @blynk.handle_event('write V10')
 def handle_update_position(pin, value):
-    if (has_synced[VirtualPin.POSITION.value] == False):
+    if (pin_sync_status[VirtualPin.POSITION.value] == False):
         roller_blind.position = int(value[0])
-        has_synced[VirtualPin.POSITION.value] = True
+        pin_sync_status[VirtualPin.POSITION.value] = True
         logger.info(f'New position set ({value[0]}%)')
         return
 
@@ -88,7 +90,7 @@ def handle_toggle_daily_roll(pin, value):
 
 @blynk.handle_event('write V13')
 def handle_time(pin, value):
-    if (not should_roll_daily): return
+    if (pin_sync_status[VirtualPin.TOGGLE_DAILY_ROLL.value] and not should_roll_daily): return
     schedule.clear('daily-roll')
 
     if (int(value[0])):
