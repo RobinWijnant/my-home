@@ -48,7 +48,6 @@ def handle_connect():
     logger.info(f'Pulling latest values from Blynk servers...')
     blynk.virtual_sync(VirtualPin.POSITION.value)
     blynk.virtual_sync(VirtualPin.TOGGLE_DAILY_ROLL.value)
-    blynk.virtual_sync(VirtualPin.DAILY_ROLL_TIME.value)
 
     # recommended by blynkkk/lib-python
     # https://github.com/blynkkk/lib-python/blob/master/examples/09_sync_virtual_pin.py
@@ -82,6 +81,8 @@ def handle_calibrate(pin, value):
 def handle_toggle_daily_roll(pin, value):
     if (int(value[0])):
         status['should_roll_daily'] = True
+        blynk.virtual_sync(VirtualPin.DAILY_ROLL_TIME.value)
+        blynk.read_response(timeout=0.5)
         logger.info('Daily roll activated')
 
     if (not int(value[0])):
