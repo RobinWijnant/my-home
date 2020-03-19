@@ -22,7 +22,7 @@ blynk = blynklib.Blynk(os.getenv('BLYNK_TOKEN'))
 logger = logging.getLogger('blynk')
 executor = ThreadPoolExecutor(max_workers=1)
 roller_blind = RollerBlind()
-should_roll_daily = False
+should_roll_daily = True
 pin_sync_status = {
     VirtualPin.POSITION.value: False,
 }
