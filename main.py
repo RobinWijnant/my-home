@@ -80,15 +80,12 @@ def handle_calibrate(pin, value):
 
 @blynk.handle_event('write V12')
 def handle_toggle_daily_roll(pin, value):
-    print(value)
-    print(value[0])
-    print(bool(value[0]))
-    if (bool(value[0])):
+    if (int(value[0])):
         should_roll_daily = True
         blynk.virtual_sync(VirtualPin.DAILY_ROLL_TIME.value)
         logger.info('Daily roll activated')
 
-    if (not bool(value[0])):
+    if (not int(value[0])):
         should_roll_daily = False
         schedule.clear('daily-roll')
         logger.info('Daily roll deactivated')
