@@ -55,6 +55,10 @@ def handle_calibrate(pin, value):
     future.add_done_callback(lambda future: logger.info('Calibration completed'))
     blynk.virtual_write(VirtualPin.POSITION.value, roller_blind.position)
 
+@blynk.handle_event('write V13')
+def handle_time(pin, value):
+    print(value)
+
 @blynk.handle_event("disconnect")
 def handle_disconnect():
     logger.info(f'Pushing latest values to Blynk servers...')
