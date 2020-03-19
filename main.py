@@ -38,7 +38,7 @@ def int_to_time(value):
     hours = value / 60 / 60
     minutes = value / 60 % 60
     print(f'{int(hours)}:{int(minutes)}')
-    return f'{int(hours)}:{int(minutes)}'
+    return f'{str(int(hours)).zfill(2)}:{str(int(minutes)).zfill(2)}'
 
 
 @blynk.handle_event("connect")
