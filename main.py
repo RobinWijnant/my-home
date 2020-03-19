@@ -37,7 +37,6 @@ def do_daily_roll(direction_up):
 def int_to_time(value):
     hours = value / 60 / 60
     minutes = value / 60 % 60
-    print(f'{int(hours)}:{int(minutes)}')
     return f'{str(int(hours)).zfill(2)}:{str(int(minutes)).zfill(2)}'
 
 
@@ -78,10 +77,10 @@ def handle_calibrate(pin, value):
 @blynk.handle_event('write V13')
 def handle_time(pin, value):
     schedule.clear('daily-roll')
-    print(int(value[0]))
+
     if (int(value[0])):
         schedule.every().day.at(int_to_time(int(value[0]))).do(do_daily_roll, True).tag('daily-roll')
-    print(int(value[1]))
+        
     if (int(value[1])):
         schedule.every().day.at(int_to_time(int(value[1]))).do(do_daily_roll, False).tag('daily-roll')
 
