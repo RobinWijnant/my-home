@@ -44,6 +44,7 @@ def int_to_time(value):
 def handle_connect():
     logger.info(f'Pulling latest values from Blynk servers...')
     blynk.virtual_sync(10)
+    blynk.virtual_sync(13)
 
     # recommended by blynkkk/lib-python
     # https://github.com/blynkkk/lib-python/blob/master/examples/09_sync_virtual_pin.py
