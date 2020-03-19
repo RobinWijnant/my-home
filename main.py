@@ -14,6 +14,7 @@ from src.roller_blind import RollerBlind
 class VirtualPin(Enum):
     POSITION = 10
     TOGGLE_DAILY_ROLL = 12
+    DAILY_ROLL_TIME = 13
 
 load_dotenv()
 
@@ -46,8 +47,9 @@ def int_to_time(value):
 @blynk.handle_event("connect")
 def handle_connect():
     logger.info(f'Pulling latest values from Blynk servers...')
-    blynk.virtual_sync(10)
-    blynk.virtual_sync(13)
+    blynk.virtual_sync(VirtualPin.POSITION.value)
+    blynk.virtual_sync(VirtualPin.TOGGLE_DAILY_ROLL.value)
+    blynk.virtual_sync(VirtualPin.DAILY_ROLL_TIME.value)
 
     # recommended by blynkkk/lib-python
     # https://github.com/blynkkk/lib-python/blob/master/examples/09_sync_virtual_pin.py
@@ -81,6 +83,7 @@ def handle_calibrate(pin, value):
 def handle_toggle_daily_roll(pin, value):
     if (bool(value[0])):
         should_roll_daily = True
+        blynk.virtual_sync(VirtualPin.DAILY_ROLL_TIME.value)
         logger.info('Daily roll activated')
 
     if (not bool(value[0])):
