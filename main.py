@@ -37,6 +37,7 @@ def do_daily_roll(direction_up):
 def int_to_time(value):
     hours = value / 60
     minutes = value % 60
+    print(f'{hours}:{minutes}')
     return f'{hours}:{minutes}'
 
 
