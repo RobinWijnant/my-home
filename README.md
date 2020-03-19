@@ -7,7 +7,6 @@
 - Roller blind doing an up/downwards motion based on:
   - a fixed position
   - a fixed time
-  - sunrise & sunset
 
 ## Getting started
 
@@ -16,7 +15,14 @@
 The following pip packages are required:
 
 ```bash
-pip3 install python-dotenv blynklib RpiMotorLib RPi.GPIO
+pip3 install \
+  python-dotenv \
+  blynklib \
+  RpiMotorLib \
+  RPi.GPIO \
+  schedule \
+  adafruit_ads1x15 \
+  busio
 ```
 
 > **Note:** RPi.GPIO is installed by default on a Raspberry Pi and is not installable on other devices

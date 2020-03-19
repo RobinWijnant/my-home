@@ -4,6 +4,7 @@ from concurrent.futures import ThreadPoolExecutor
 from enum import Enum
 
 import blynklib
+import schedule
 from dotenv import load_dotenv
 
 import logger
@@ -14,13 +15,30 @@ class VirtualPin(Enum):
     POSITION = 10
 
 load_dotenv()
+
 blynk = blynklib.Blynk(os.getenv('BLYNK_TOKEN'))
 logger = logging.getLogger('blynk')
 executor = ThreadPoolExecutor(max_workers=1)
 roller_blind = RollerBlind()
+
 has_synced = {
     VirtualPin.POSITION.value: False,
 }
+
+def do_daily_roll(direction_up):
+    if (direction_up):
+        logger.info(f'Daily roll up starting...')
+        future = executor.submit(roller_blind.roll, 0)
+        future.add_done_callback(lambda future: logger.info('Daily roll up finished'))
+    logger.info(f'Daily roll down starting...')
+    future = executor.submit(roller_blind.roll, 100)
+    future.add_done_callback(lambda future: logger.info('Daily roll down finished'))
+
+def int_to_time(value):
+    hours = value / 60
+    minutes = value % 60
+    return f'{hours}:{minutes}'
+
 
 @blynk.handle_event("connect")
 def handle_connect():
@@ -57,7 +75,9 @@ def handle_calibrate(pin, value):
 
 @blynk.handle_event('write V13')
 def handle_time(pin, value):
-    print(value)
+    schedule.clear('daily-roll')
+    schedule.every().day.at(int_to_time(value[0])).do(do_daily_roll, True).tag('daily-roll')
+    schedule.every().day.at(int_to_time(value[1])).do(do_daily_roll, False).tag('daily-roll')
 
 @blynk.handle_event("disconnect")
 def handle_disconnect():
@@ -68,6 +88,7 @@ def handle_disconnect():
 try:
     while True:
         blynk.run()
+        schedule.run_pending()
 
 except KeyboardInterrupt:
     print()
