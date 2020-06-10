@@ -31,10 +31,12 @@ def do_daily_roll(direction_up):
     if (direction_up):
         logger.info(f'Daily roll up starting...')
         future = executor.submit(roller_blind.roll, 0)
+        blynk.virtual_write(VirtualPin.POSITION.value, 0)
         future.add_done_callback(lambda future: logger.info('Daily roll up finished'))
     else:
         logger.info(f'Daily roll down starting...')
         future = executor.submit(roller_blind.roll, 100)
+        blynk.virtual_write(VirtualPin.POSITION.value, 100)
         future.add_done_callback(lambda future: logger.info('Daily roll down finished'))
 
 def int_to_time(value):
