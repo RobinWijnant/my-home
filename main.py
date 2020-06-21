@@ -1,6 +1,7 @@
 import logging
 import os
 import asyncio
+import tracemalloc
 from enum import Enum
 
 import blynklib
@@ -18,6 +19,7 @@ class VirtualPin(Enum):
 
 
 load_dotenv()
+tracemalloc.start()
 
 blynk = blynklib.Blynk(os.getenv("BLYNK_TOKEN"))
 logger = logging.getLogger("blynk")
