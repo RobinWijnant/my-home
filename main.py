@@ -33,7 +33,7 @@ def run(coroutine, success_message):
     if current_task and not current_task.cancelled():
         current_task.cancel()
     loop = asyncio.new_event_loop()
-    current_task = asyncio.run_coroutine_threadsafe(coroutine(), loop)
+    current_task = asyncio.run_coroutine_threadsafe(coroutine, loop)
     current_task.add_done_callback(lambda task: logger.info(success_message))
 
 
@@ -129,6 +129,7 @@ def handle_disconnect():
 
 try:
     while True:
+        run(roller_blind.roll(100), "yeey")
         blynk.run()
         schedule.run_pending()
 
