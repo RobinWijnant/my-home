@@ -32,7 +32,8 @@ status = {
 def run(coroutine, success_message):
     if current_task and not current_task.cancelled():
         current_task.cancel()
-    current_task = asyncio.create_task(coroutine)
+    loop = asyncio.get_event_loop()
+    current_task = loop.create_task(coroutine)
     current_task.add_done_callback(lambda task: logger.info(success_message))
 
 
