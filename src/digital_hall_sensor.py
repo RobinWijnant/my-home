@@ -2,7 +2,6 @@ import RPi.GPIO as GPIO
 
 
 class DigitalHallSensor:
-
     def __init__(self, pin):
         self.pin = pin
         GPIO.setmode(GPIO.BCM)
