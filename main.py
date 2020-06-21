@@ -29,22 +29,21 @@ status = {
 }
 
 
-def run(coroutine, success_message):
+def schedule_roll(position, success_message):
     if current_task and not current_task.cancelled():
         current_task.cancel()
-    loop = asyncio.new_event_loop()
-    current_task = asyncio.run_coroutine_threadsafe(coroutine(), loop)
+    current_task = asyncio.create_task(roller_blind.roll(position))
     current_task.add_done_callback(lambda task: logger.info(success_message))
 
 
 def do_daily_roll(direction_up):
     if direction_up:
         logger.info(f"Daily roll up starting...")
-        run(roller_blind.roll(0), "Daily roll up finished")
+        schedule_roll(0, "Daily roll up finished")
         blynk.virtual_write(VirtualPin.POSITION.value, 0)
     else:
         logger.info(f"Daily roll down starting...")
-        run(roller_blind.roll(1000), "Daily roll down finished")
+        schedule_roll(1000, "Daily roll down finished")
         blynk.virtual_write(VirtualPin.POSITION.value, 1000)
 
 
@@ -76,7 +75,7 @@ def handle_update_position(pin, value):
         return
 
     logger.info(f"Setting new position ({value[0]}‰)...")
-    run(roller_blind.roll(int(value[0])), "New position reached")
+    schedule_roll(int(value[0]), "New position reached")
 
 
 @blynk.handle_event("write V11")
