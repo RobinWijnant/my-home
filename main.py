@@ -32,7 +32,7 @@ status = {
 
 
 def run(coroutine, success_message):
-    if current_task and not current_task.cancelled():
+    if current_task is not None and not current_task.cancelled():
         current_task.cancel()
     loop = asyncio.new_event_loop()
     current_task = asyncio.run_coroutine_threadsafe(coroutine, loop)
