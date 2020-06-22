@@ -34,9 +34,8 @@ status = {
 def run(coroutine, success_message):
     try:
         current_task.cancel()
-    except Exception as error:
-        print("exc")
-        print(error)
+    except UnboundLocalError:
+        pass
     loop = asyncio.new_event_loop()
     current_task = asyncio.run_coroutine_threadsafe(coroutine, loop)
     current_task.add_done_callback(lambda task: logger.info(success_message))
@@ -133,8 +132,8 @@ def handle_disconnect():
 
 
 try:
+    run(roller_blind.roll(100), "yeey")
     while True:
-        run(roller_blind.roll(100), "yeey")
         blynk.run()
         schedule.run_pending()
 
