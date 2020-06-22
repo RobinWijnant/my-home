@@ -36,6 +36,7 @@ def run(coroutine, success_message):
         current_task.cancel()
     except UnboundLocalError:
         pass
+    print(coroutine)
     loop = asyncio.new_event_loop()
     current_task = asyncio.run_coroutine_threadsafe(coroutine, loop)
     current_task.add_done_callback(lambda task: logger.info(success_message))
