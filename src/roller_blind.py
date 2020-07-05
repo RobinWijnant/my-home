@@ -26,7 +26,7 @@ class RollerBlind:
             RollerBlind.STEP_MODE_PINS,
             RollerBlind.STEP_SLEEP_PIN,
         )
-        self.hall_sensor = DigitalHallSensor(board.SCL)
+        self.hall_sensor = DigitalHallSensor(10)
         self.position = 0  # [0,100]
 
     def calibrate(self):
