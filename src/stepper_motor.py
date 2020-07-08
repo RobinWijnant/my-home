@@ -24,7 +24,7 @@ class StepperMotor:
             GPIO.output(self.sleep_pin, GPIO.HIGH)
 
     async def go(self, steps, is_clockwise):
-        await self.stepper.motor_go(
+        return self.stepper.motor_go(
             clockwise=is_clockwise,
             steptype=self.step_mode,
             steps=steps,
