@@ -32,8 +32,11 @@ status = {
 
 
 async def run(coroutine, success_message):
-    if current_task is not None and not current_task.cancelled():
+    try:
         current_task.cancel()
+    except UnboundLocalError as err:
+        print(err)
+        pass
 
     current_task = asyncio.create_task(coroutine)
     current_task.add_done_callback(lambda task: logger.info(success_message))
