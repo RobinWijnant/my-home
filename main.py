@@ -32,10 +32,8 @@ status = {
 
 
 async def run(coroutine, success_message):
-    # try:
-    #     current_task.cancel()
-    # except UnboundLocalError:
-    #     pass
+    if current_task is not None and not current_task.cancelled():
+        current_task.cancel()
 
     current_task = asyncio.create_task(coroutine)
     current_task.add_done_callback(lambda task: logger.info(success_message))
@@ -45,11 +43,11 @@ async def run(coroutine, success_message):
 def do_daily_roll(direction_up):
     if direction_up:
         logger.info(f"Daily roll up starting...")
-        run(roller_blind.roll(0), "Daily roll up finished")
+        asyncio.run(run(roller_blind.roll(0), "Daily roll up finished"))
         blynk.virtual_write(VirtualPin.POSITION.value, 0)
     else:
         logger.info(f"Daily roll down starting...")
-        run(roller_blind.roll(1000), "Daily roll down finished")
+        asyncio.run(run(roller_blind.roll(1000), "Daily roll down finished"))
         blynk.virtual_write(VirtualPin.POSITION.value, 1000)
 
 
@@ -81,7 +79,7 @@ def handle_update_position(pin, value):
         return
 
     logger.info(f"Setting new position ({value[0]}‰)...")
-    run(roller_blind.roll(int(value[0])), "New position reached")
+    asyncio.run(run(roller_blind.roll(int(value[0])), "New position reached"))
 
 
 @blynk.handle_event("write V11")
@@ -90,7 +88,7 @@ def handle_calibrate(pin, value):
         return
 
     logger.info("Calibrating...")
-    run(roller_blind.calibrate(), "Calibration completed")
+    asyncio.run(run(roller_blind.calibrate(), "Calibration completed"))
     blynk.virtual_write(VirtualPin.POSITION.value, roller_blind.position)
 
 
