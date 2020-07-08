@@ -32,13 +32,12 @@ status = {
 
 
 def run(coroutine, success_message):
-    try:
-        current_task.cancel()
-    except UnboundLocalError:
-        pass
-    print(coroutine)
-    loop = asyncio.new_event_loop()
-    current_task = asyncio.run_coroutine_threadsafe(coroutine, loop)
+    # try:
+    #     current_task.cancel()
+    # except UnboundLocalError:
+    #     pass
+
+    current_task = asyncio.create_task(coroutine)
     current_task.add_done_callback(lambda task: logger.info(success_message))
 
 
