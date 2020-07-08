@@ -39,7 +39,7 @@ def run(coroutine, success_message):
 
     current_task = asyncio.create_task(coroutine)
     current_task.add_done_callback(lambda task: logger.info(success_message))
-    await current_task
+    asyncio.run(current_task)
 
 
 def do_daily_roll(direction_up):
