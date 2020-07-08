@@ -142,5 +142,11 @@ try:
 
 except KeyboardInterrupt:
     print()
-    blynk.disconnect()
     logger.warning("Script interrupted by user")
+
+    try:
+        current_task.cancel()
+    except UnboundLocalError:
+        pass
+
+    blynk.disconnect()
