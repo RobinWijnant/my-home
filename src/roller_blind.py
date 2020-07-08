@@ -1,7 +1,7 @@
 from enum import Enum
 
 import board
-from src.hall_sensor import HallSensor
+from src.digital_hall_sensor import DigitalHallSensor
 from src.stepper_motor import StepperMotor
 
 
@@ -26,7 +26,7 @@ class RollerBlind:
             RollerBlind.STEP_MODE_PINS,
             RollerBlind.STEP_SLEEP_PIN,
         )
-        self.hall_sensor = HallSensor(board.SCL, board.SDA)
+        self.hall_sensor = DigitalHallSensor(10)
         self.position = 0  # [0,1000]
 
     async def calibrate(self):
