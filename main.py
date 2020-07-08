@@ -24,7 +24,6 @@ tracemalloc.start()
 blynk = blynklib.Blynk(os.getenv("BLYNK_TOKEN"))
 logger = logging.getLogger("blynk")
 current_task = None
-event_loop = asyncio.new_event_loop()
 roller_blind = RollerBlind()
 status = {
     "is_position_synced": False,
@@ -32,15 +31,15 @@ status = {
 }
 
 
-def run(coroutine, success_message):
+async def run(coroutine, success_message):
     # try:
     #     current_task.cancel()
     # except UnboundLocalError:
     #     pass
 
-    current_task = event_loop.create_task(coroutine)
+    current_task = asyncio.create_task(coroutine)
     current_task.add_done_callback(lambda task: logger.info(success_message))
-    current_task = event_loop.run_coroutine_threadsafe(coroutine, event_loop)
+    await current_task
 
 
 def do_daily_roll(direction_up):
@@ -134,7 +133,7 @@ def handle_disconnect():
 
 
 try:
-    run(roller_blind.roll(100), "yeey")
+    asyncio.run(run(roller_blind.roll(100), "yeey"))
     while True:
         blynk.run()
         schedule.run_pending()
