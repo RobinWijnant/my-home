@@ -24,6 +24,7 @@ tracemalloc.start()
 blynk = blynklib.Blynk(os.getenv("BLYNK_TOKEN"))
 logger = logging.getLogger("blynk")
 current_task = None
+event_loop = asyncio.new_event_loop()
 roller_blind = RollerBlind()
 status = {
     "is_position_synced": False,
@@ -39,7 +40,7 @@ def run(coroutine, success_message):
 
     current_task = asyncio.create_task(coroutine)
     current_task.add_done_callback(lambda task: logger.info(success_message))
-    asyncio.run(current_task)
+    current_task = asyncio.run_coroutine_threadsafe(coroutine, event_loop)
 
 
 def do_daily_roll(direction_up):
