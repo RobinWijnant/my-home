@@ -133,7 +133,6 @@ def handle_disconnect():
 
 
 try:
-    asyncio.run(run(roller_blind.roll(100), "yeey"))
     while True:
         blynk.run()
         schedule.run_pending()

@@ -1,3 +1,4 @@
+import asyncio
 from enum import Enum
 
 import board
@@ -49,20 +50,26 @@ class RollerBlind:
     async def _roll_up(self, position):
         position_diff = self.position - position
         for incrementing_position in range(position_diff):
-            await self.stepper.go(
-                self._convert_position_diff_to_steps(incrementing_position),
-                RollDirection.UP.value,
-            )
-            self.position = incrementing_position
+            try:
+                await self.stepper.go(
+                    self._convert_position_diff_to_steps(incrementing_position),
+                    RollDirection.UP.value,
+                )
+                self.position = incrementing_position
+            except asyncio.CancelledError:
+                return
 
     async def _roll_down(self, position):
         position_diff = position - self.position
         for incrementing_position in range(position_diff):
-            await self.stepper.go(
-                self._convert_position_diff_to_steps(incrementing_position),
-                RollDirection.DOWN.value,
-            )
-            self.position = incrementing_position
+            try:
+                await self.stepper.go(
+                    self._convert_position_diff_to_steps(incrementing_position),
+                    RollDirection.DOWN.value,
+                )
+                self.position = incrementing_position
+            except asyncio.CancelledError:
+                return
 
     def _convert_position_diff_to_steps(self, position_diff):
         steps_for_1_rotation = 360 / 1.8 * self.stepper.get_step_mode_multiplier()
