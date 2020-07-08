@@ -38,9 +38,9 @@ def run(coroutine, success_message):
     # except UnboundLocalError:
     #     pass
 
-    current_task = asyncio.create_task(coroutine)
+    current_task = event_loop.create_task(coroutine)
     current_task.add_done_callback(lambda task: logger.info(success_message))
-    current_task = asyncio.run_coroutine_threadsafe(coroutine, event_loop)
+    current_task = event_loop.run_coroutine_threadsafe(coroutine, event_loop)
 
 
 def do_daily_roll(direction_up):
