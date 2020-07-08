@@ -61,8 +61,10 @@ class RollerBlind:
 
     async def _roll_down(self, position):
         position_diff = position - self.position
+        print(position_diff)
         for incrementing_position in range(position_diff):
             try:
+                print(incrementing_position)
                 await self.stepper.go(
                     self._convert_position_diff_to_steps(incrementing_position),
                     RollDirection.DOWN.value,
