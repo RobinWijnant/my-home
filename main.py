@@ -33,6 +33,7 @@ status = {
 
 async def run(coroutine, success_message):
     try:
+        print(current_task)
         current_task.cancel()
     except UnboundLocalError:
         pass
@@ -133,8 +134,8 @@ def handle_disconnect():
 
 
 try:
-    asyncio.run(run(roller_blind.roll(10), "New position reached1"))
-    asyncio.run(run(roller_blind.roll(20), "New position reached2"))
+    asyncio.run(run(roller_blind.roll(2), "New position reached1"))
+    asyncio.run(run(roller_blind.roll(4), "New position reached2"))
     while True:
         blynk.run()
         schedule.run_pending()
