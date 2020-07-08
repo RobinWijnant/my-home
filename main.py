@@ -33,7 +33,7 @@ status = {
 
 async def run(coroutine, success_message):
     try:
-        print(current_task)
+        print(type(current_task))
         current_task.cancel()
     except UnboundLocalError:
         pass
