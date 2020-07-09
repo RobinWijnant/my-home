@@ -44,22 +44,29 @@ class RollerBlind:
         if position > self.position:
             self._roll_down(position, stopped)
         else:
-            self._roll_up(position)
+            self._roll_up(position, stopped)
         self.position = position
         self.stepper.set_sleep(True)
 
-    def _roll_up(self, position):
+    def _roll_up(self, position, stopped):
         position_diff = self.position - position
-        self.stepper.go(
-            self._convert_position_diff_to_steps(position_diff), RollDirection.UP.value
-        )
+        for incrementing_position in range(position_diff):
+            print("UP", incrementing_position)
+            if stopped():
+                print("stop going up")
+                return
+            self.stepper.go(
+                self._convert_position_diff_to_steps(incrementing_position),
+                RollDirection.UP.value,
+            )
 
     def _roll_down(self, position, stopped):
         position_diff = position - self.position
         for incrementing_position in range(position_diff):
+            print("DOWN", incrementing_position)
             if stopped():
+                print("stop going down")
                 return
-
             self.stepper.go(
                 self._convert_position_diff_to_steps(incrementing_position),
                 RollDirection.DOWN.value,
