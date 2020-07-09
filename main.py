@@ -43,11 +43,11 @@ def thread(function, arguments=()):
 def do_daily_roll(direction_up):
     if direction_up:
         logger.info(f"Daily roll up starting...")
-        thread(roller_blind.roll, (0))
+        thread(roller_blind.roll, [0])
         blynk.virtual_write(VirtualPin.POSITION.value, 0)
     else:
         logger.info(f"Daily roll down starting...")
-        thread(roller_blind.roll, (100))
+        thread(roller_blind.roll, [100])
         blynk.virtual_write(VirtualPin.POSITION.value, 100)
 
 
@@ -79,7 +79,7 @@ def handle_update_position(pin, value):
         return
 
     logger.info(f"Setting new position ({value[0]}%)...")
-    thread(roller_blind.roll, (int(value[0])))
+    thread(roller_blind.roll, [int(value[0])])
 
 
 @blynk.handle_event("write V11")
