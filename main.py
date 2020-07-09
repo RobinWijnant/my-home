@@ -30,13 +30,13 @@ status = {
 }
 
 
-def thread(function, arguments=()):
+def thread(function, arguments=[]):
     global current_thread
     if current_thread is not None:
-        current_thread.raise_exception()
+        current_thread.stop()
         current_thread.join()
 
-    current_thread = StoppableThread(target=function, args=arguments)
+    current_thread = StoppableThread(function, arguments)
     current_thread.start()
 
 

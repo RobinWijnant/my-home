@@ -2,8 +2,8 @@ import threading
 
 
 class StoppableThread(threading.Thread):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs, args=[*kwargs[args], self.stopped])
+    def __init__(self, function, arguments):
+        super().__init__(target=function, args=[*arguments, self.stopped])
         self._cancelled = threading.Event()
 
     def stop(self):
