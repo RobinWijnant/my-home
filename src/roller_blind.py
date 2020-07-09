@@ -59,7 +59,7 @@ class RollerBlind:
             )
             self.position += 1
 
-        print(roll_direction, position_diff, "DONE")
+        print(roll_direction, position_diff, "DONE, NEW:", self.position)
         self.stepper.set_sleep(True)
 
     def _convert_position_diff_to_steps(self, position_diff):
