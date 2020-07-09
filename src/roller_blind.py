@@ -70,9 +70,9 @@ class RollerBlind:
                     RollDirection.DOWN.value,
                 )
                 self.position = incrementing_position
-            except asyncio.CancelledError as err:
-                print("Error", err)
-                return
+            except asyncio.CancelledError:
+                print("Error")
+                raise
 
     def _convert_position_diff_to_steps(self, position_diff):
         steps_for_1_rotation = 360 / 1.8 * self.stepper.get_step_mode_multiplier()
