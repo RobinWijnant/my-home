@@ -123,8 +123,6 @@ def handle_disconnect():
 
 
 try:
-    asyncio.run(executor.run(roller_blind.roll(2), "New position reached1"))
-    asyncio.run(executor.run(roller_blind.roll(4), "New position reached2"))
     while True:
         blynk.run()
         schedule.run_pending()
