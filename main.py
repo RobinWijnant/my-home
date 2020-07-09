@@ -139,7 +139,7 @@ except KeyboardInterrupt:
     print()
 
     if current_thread is not None:
-        current_thread.raise_exception()
+        current_thread.stop()
         current_thread.join()
 
     blynk.disconnect()
