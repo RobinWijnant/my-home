@@ -33,9 +33,9 @@ status = {
 
 async def run(coroutine, success_message):
     try:
-        print(type(current_task))
         current_task.cancel()
-    except UnboundLocalError:
+    except UnboundLocalError as err:
+        print(err)
         pass
 
     current_task = asyncio.create_task(coroutine)
