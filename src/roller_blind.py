@@ -1,8 +1,8 @@
 from enum import Enum
 
 import board
-from src.digital_hall_sensor import DigitalHallSensor
-from src.stepper_motor import StepperMotor
+from src.components.digital_hall_sensor import DigitalHallSensor
+from src.components.stepper_motor import StepperMotor
 
 
 class RollDirection(Enum):

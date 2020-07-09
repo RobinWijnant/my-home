@@ -68,11 +68,11 @@ This project uses the unittest module to run tests. There are no additional pack
 Run all tests:
 
 ```bash
-python3 -m unittest discover -s ./test
+python3 -m unittest discover -s ./src/components/test
 ```
 
 Run a single test
 
 ```bash
-python3 -m unittest test.test_stepper_motor
+python3 -m unittest src.components.test.test_stepper_motor
 ```
