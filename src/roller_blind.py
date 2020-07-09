@@ -48,11 +48,9 @@ class RollerBlind:
         if position_diff < 0:
             position_diff = abs(position_diff)
             roll_direction = RollDirection.UP
-        print(roll_direction, position_diff)
 
         for index in range(position_diff):
             if stopped():
-                print("stop going up")
                 return
             self.stepper.go(
                 self.steps_for_1_position, roll_direction.value,
@@ -63,7 +61,6 @@ class RollerBlind:
                 else self.position - 1
             )
 
-        print(roll_direction, position_diff, "DONE, NEW:", self.position)
         self.stepper.set_sleep(True)
 
     def _convert_position_diff_to_steps(self, position_diff):
