@@ -57,7 +57,11 @@ class RollerBlind:
             self.stepper.go(
                 self.steps_for_1_position, roll_direction.value,
             )
-            self.position += 1
+            self.position = (
+                self.position + 1
+                if roll_direction == RollDirection.DOWN
+                else self.position - 1
+            )
 
         print(roll_direction, position_diff, "DONE, NEW:", self.position)
         self.stepper.set_sleep(True)
