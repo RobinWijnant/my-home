@@ -138,12 +138,9 @@ try:
 except KeyboardInterrupt:
     print()
 
-    try:
+    if current_thread is not None:
         current_thread.raise_exception()
         current_thread.join()
-    except UnboundLocalError:
-        print("UnboundLocalError")
-        pass
 
     blynk.disconnect()
     logger.warning("Script interrupted by user")
