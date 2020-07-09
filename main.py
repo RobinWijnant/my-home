@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 
 import src.logger
 from src.roller_blind import RollerBlind
+from src.stoppable_thread import StoppableThread
 
 
 class VirtualPin(Enum):
@@ -21,25 +22,35 @@ load_dotenv()
 
 blynk = blynklib.Blynk(os.getenv("BLYNK_TOKEN"))
 logger = logging.getLogger("blynk")
-executor = ThreadPoolExecutor(max_workers=1)
 roller_blind = RollerBlind()
+current_thread = None
 status = {
     "is_position_synced": False,
     "should_roll_daily": True,
 }
 
 
+def thread(*args, **kwargs):
+    try:
+        current_thread.raise_exception()
+        current_thread.join()
+    except UnboundLocalError:
+        print("UnboundLocalError")
+        pass
+
+    current_thread = StoppableThread(*args, **kwargs)
+    current_thread.start()
+
+
 def do_daily_roll(direction_up):
     if direction_up:
         logger.info(f"Daily roll up starting...")
-        future = executor.submit(roller_blind.roll, 0)
+        thread(target=roller_blind.roll, args=(0))
         blynk.virtual_write(VirtualPin.POSITION.value, 0)
-        future.add_done_callback(lambda future: logger.info("Daily roll up finished"))
     else:
         logger.info(f"Daily roll down starting...")
-        future = executor.submit(roller_blind.roll, 100)
+        thread(target=roller_blind.roll, args=(100))
         blynk.virtual_write(VirtualPin.POSITION.value, 100)
-        future.add_done_callback(lambda future: logger.info("Daily roll down finished"))
 
 
 def int_to_time(value):
@@ -70,8 +81,7 @@ def handle_update_position(pin, value):
         return
 
     logger.info(f"Setting new position ({value[0]}%)...")
-    future = executor.submit(roller_blind.roll, int(value[0]))
-    future.add_done_callback(lambda future: logger.info("New position reached"))
+    thread(target=roller_blind.roll, args=(int(value[0])))
 
 
 @blynk.handle_event("write V11")
@@ -80,8 +90,7 @@ def handle_calibrate(pin, value):
         return
 
     logger.info("Calibrating...")
-    future = executor.submit(roller_blind.calibrate)
-    future.add_done_callback(lambda future: logger.info("Calibration completed"))
+    thread(target=roller_blind.calibrate)
     blynk.virtual_write(VirtualPin.POSITION.value, roller_blind.position)
 
 
@@ -130,6 +139,13 @@ try:
 
 except KeyboardInterrupt:
     print()
-    executor.shutdown()
+
+    try:
+        current_thread.raise_exception()
+        current_thread.join()
+    except UnboundLocalError:
+        print("UnboundLocalError")
+        pass
+
     blynk.disconnect()
     logger.warning("Script interrupted by user")
