@@ -15,5 +15,7 @@ class Executor:
         await current_task
 
     def stop(self):
+        print("try stop")
         if self.current_task is not None and not self.current_task.cancelled():
+            print("raise error")
             self.current_task.cancel()
