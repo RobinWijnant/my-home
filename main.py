@@ -75,10 +75,10 @@ def handle_update_position(pin, value):
     if status["is_position_synced"] == False:
         roller_blind.position = int(value[0])
         status["is_position_synced"] = True
-        logger.info(f"New position set ({value[0]}%)")
+        logger.info(f"New position set ({value[0]}‰)")
         return
 
-    logger.info(f"Setting new position ({value[0]}%)...")
+    logger.info(f"Setting new position ({value[0]}‰)...")
     thread(roller_blind.roll, [int(value[0])])
 
 

@@ -28,7 +28,7 @@ class RollerBlind:
             RollerBlind.STEP_SLEEP_PIN,
         )
         self.hall_sensor = DigitalHallSensor(10)
-        self.position = 0  # [0,100]
+        self.position = 0  # [0,1000]
 
     def calibrate(self):
         self.stepper.set_sleep(False)
@@ -75,5 +75,5 @@ class RollerBlind:
 
     def _convert_position_diff_to_steps(self, position_diff):
         steps_for_1_rotation = 360 / 1.8 * self.stepper.get_step_mode_multiplier()
-        steps_to_position_100 = steps_for_1_rotation * RollerBlind.ROTATIONS_UNTIL_DOWN
-        return int(steps_to_position_100 / 100 * position_diff)
+        steps_until_down = steps_for_1_rotation * RollerBlind.ROTATIONS_UNTIL_DOWN
+        return int(steps_until_down / 1000 * position_diff)
