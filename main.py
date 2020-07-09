@@ -30,24 +30,24 @@ status = {
 }
 
 
-def thread(*args, **kwargs):
+def thread(function, arguments=()):
     global current_thread
     if current_thread is not None:
         current_thread.raise_exception()
         current_thread.join()
 
-    current_thread = StoppableThread(*args, **kwargs)
+    current_thread = StoppableThread(target=function, args=arguments)
     current_thread.start()
 
 
 def do_daily_roll(direction_up):
     if direction_up:
         logger.info(f"Daily roll up starting...")
-        thread(target=roller_blind.roll, args=(0))
+        thread(roller_blind.roll, (0))
         blynk.virtual_write(VirtualPin.POSITION.value, 0)
     else:
         logger.info(f"Daily roll down starting...")
-        thread(target=roller_blind.roll, args=(100))
+        thread(roller_blind.roll, (100))
         blynk.virtual_write(VirtualPin.POSITION.value, 100)
 
 
@@ -79,7 +79,7 @@ def handle_update_position(pin, value):
         return
 
     logger.info(f"Setting new position ({value[0]}%)...")
-    thread(target=roller_blind.roll, args=(int(value[0])))
+    thread(roller_blind.roll, (int(value[0])))
 
 
 @blynk.handle_event("write V11")
@@ -88,7 +88,7 @@ def handle_calibrate(pin, value):
         return
 
     logger.info("Calibrating...")
-    thread(target=roller_blind.calibrate)
+    thread(roller_blind.calibrate)
     blynk.virtual_write(VirtualPin.POSITION.value, roller_blind.position)
 
 

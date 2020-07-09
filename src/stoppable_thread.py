@@ -4,8 +4,8 @@ import ctypes
 
 class StoppableThread(threading.Thread):
     def __init__(self, *args, **kwargs):
+        print(args, kwargs)
         super().__init__(self, *args, **kwargs)
-        self._stop_event = threading.Event()
 
     def raise_exception(self):
         thread_id = self.get_ident()
