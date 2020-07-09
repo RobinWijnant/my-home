@@ -1,5 +1,6 @@
 from enum import Enum
 
+import sys
 import board
 from src.components.digital_hall_sensor import DigitalHallSensor
 from src.components.stepper_motor import StepperMotor
@@ -55,10 +56,16 @@ class RollerBlind:
 
     def _roll_down(self, position):
         position_diff = position - self.position
-        self.stepper.go(
-            self._convert_position_diff_to_steps(position_diff),
-            RollDirection.DOWN.value,
-        )
+        for incrementing_position in range(position_diff):
+            try:
+                self.stepper.go(
+                    self._convert_position_diff_to_steps(incrementing_position),
+                    RollDirection.DOWN.value,
+                )
+                self.position = incrementing_position
+            except:
+                print(sys.exc_info()[0])
+                return
 
     def _convert_position_diff_to_steps(self, position_diff):
         steps_for_1_rotation = 360 / 1.8 * self.stepper.get_step_mode_multiplier()
