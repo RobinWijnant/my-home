@@ -31,12 +31,10 @@ status = {
 
 
 def thread(*args, **kwargs):
-    try:
+    global current_thread
+    if current_thread is not None:
         current_thread.raise_exception()
         current_thread.join()
-    except UnboundLocalError:
-        print("UnboundLocalError")
-        pass
 
     current_thread = StoppableThread(*args, **kwargs)
     current_thread.start()
