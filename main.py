@@ -10,6 +10,7 @@ from dotenv import load_dotenv
 
 import logger
 from src.roller_blind import RollerBlind
+from src.executor import Executor
 
 
 class VirtualPin(Enum):
@@ -23,7 +24,7 @@ tracemalloc.start()
 
 blynk = blynklib.Blynk(os.getenv("BLYNK_TOKEN"))
 logger = logging.getLogger("blynk")
-current_task = None
+executor = Executor(logger)
 roller_blind = RollerBlind()
 status = {
     "is_position_synced": False,
@@ -31,26 +32,14 @@ status = {
 }
 
 
-async def run(coroutine, success_message):
-    try:
-        current_task.cancel()
-    except UnboundLocalError as err:
-        print(err)
-        pass
-
-    current_task = asyncio.create_task(coroutine)
-    current_task.add_done_callback(lambda task: logger.info(success_message))
-    await current_task
-
-
 def do_daily_roll(direction_up):
     if direction_up:
         logger.info(f"Daily roll up starting...")
-        asyncio.run(run(roller_blind.roll(0), "Daily roll up finished"))
+        asyncio.run(executor.run(roller_blind.roll(0), "Daily roll up finished"))
         blynk.virtual_write(VirtualPin.POSITION.value, 0)
     else:
         logger.info(f"Daily roll down starting...")
-        asyncio.run(run(roller_blind.roll(1000), "Daily roll down finished"))
+        asyncio.run(executor.run(roller_blind.roll(1000), "Daily roll down finished"))
         blynk.virtual_write(VirtualPin.POSITION.value, 1000)
 
 
@@ -82,7 +71,7 @@ def handle_update_position(pin, value):
         return
 
     logger.info(f"Setting new position ({value[0]}‰)...")
-    asyncio.run(run(roller_blind.roll(int(value[0])), "New position reached"))
+    asyncio.run(executor.run(roller_blind.roll(int(value[0])), "New position reached"))
 
 
 @blynk.handle_event("write V11")
@@ -91,7 +80,7 @@ def handle_calibrate(pin, value):
         return
 
     logger.info("Calibrating...")
-    asyncio.run(run(roller_blind.calibrate(), "Calibration completed"))
+    asyncio.run(executor.run(roller_blind.calibrate(), "Calibration completed"))
     blynk.virtual_write(VirtualPin.POSITION.value, roller_blind.position)
 
 
@@ -134,8 +123,8 @@ def handle_disconnect():
 
 
 try:
-    asyncio.run(run(roller_blind.roll(2), "New position reached1"))
-    asyncio.run(run(roller_blind.roll(4), "New position reached2"))
+    asyncio.run(executor.run(roller_blind.roll(2), "New position reached1"))
+    asyncio.run(executor.run(roller_blind.roll(4), "New position reached2"))
     while True:
         blynk.run()
         schedule.run_pending()
@@ -143,10 +132,5 @@ try:
 except KeyboardInterrupt:
     print()
     logger.warning("Script interrupted by user")
-
-    try:
-        current_task.cancel()
-    except UnboundLocalError:
-        pass
-
+    executor.stop()
     blynk.disconnect()
