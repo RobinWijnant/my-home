@@ -29,6 +29,7 @@ class RollerBlind:
         )
         self.hall_sensor = DigitalHallSensor(10)
         self.position = 0  # [0,1000]
+        self.steps_for_1_position = self._convert_position_diff_to_steps(1)
 
     def calibrate(self):
         self.stepper.set_sleep(False)
@@ -41,39 +42,26 @@ class RollerBlind:
 
     def roll(self, position, stopped):
         self.stepper.set_sleep(False)
-        if position > self.position:
-            self._roll_down(position, stopped)
-        else:
-            self._roll_up(position, stopped)
-        self.position = position
-        self.stepper.set_sleep(True)
 
-    def _roll_up(self, position, stopped):
-        position_diff = self.position - position
-        for incrementing_position in range(position_diff):
-            print("UP", incrementing_position)
+        position_diff = position - self.position
+        roll_direction = RollDirection.DOWN
+        if position_diff < 0:
+            position_diff = abs(position_diff)
+            roll_direction = RollDirection.UP
+
+        for index in range(position_diff):
+            print(roll_direction, index)
             if stopped():
                 print("stop going up")
                 return
             self.stepper.go(
-                self._convert_position_diff_to_steps(incrementing_position),
-                RollDirection.UP.value,
+                self.steps_for_1_position, roll_direction.value,
             )
+            self.position += 1
 
-    def _roll_down(self, position, stopped):
-        position_diff = position - self.position
-        for incrementing_position in range(position_diff):
-            print("DOWN", incrementing_position)
-            if stopped():
-                print("stop going down")
-                return
-            self.stepper.go(
-                self._convert_position_diff_to_steps(incrementing_position),
-                RollDirection.DOWN.value,
-            )
-            self.position = incrementing_position
+        self.stepper.set_sleep(True)
 
     def _convert_position_diff_to_steps(self, position_diff):
         steps_for_1_rotation = 360 / 1.8 * self.stepper.get_step_mode_multiplier()
         steps_until_down = steps_for_1_rotation * RollerBlind.ROTATIONS_UNTIL_DOWN
-        return int(steps_until_down / 1000 * position_diff)
+        return int((steps_until_down * position_diff) / 1000)
