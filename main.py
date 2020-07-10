@@ -123,7 +123,7 @@ def handle_time(pin, value):
         logger.info(f"Daily roll down set to {time}")
 
 
-@blynk.handle_event("write V13")
+@blynk.handle_event("write V14")
 def handle_kill_switch(pin, value):
     if not int(value[0]):
         return
