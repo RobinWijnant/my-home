@@ -1,8 +1,9 @@
 from enum import Enum
 
+import sys
 import board
-from src.digital_hall_sensor import DigitalHallSensor
-from src.stepper_motor import StepperMotor
+from src.components.digital_hall_sensor import DigitalHallSensor
+from src.components.stepper_motor import StepperMotor
 
 
 class RollDirection(Enum):
@@ -27,7 +28,8 @@ class RollerBlind:
             RollerBlind.STEP_SLEEP_PIN,
         )
         self.hall_sensor = DigitalHallSensor(10)
-        self.position = 0  # [0,100]
+        self.position = 0  # [0,1000]
+        self.steps_for_1_position = self._convert_position_diff_to_steps(1)
 
     def calibrate(self):
         self.stepper.set_sleep(False)
@@ -38,29 +40,30 @@ class RollerBlind:
         self.position = 0
         self.stepper.set_sleep(True)
 
-    def roll(self, position):
+    def roll(self, position, stopped):
         self.stepper.set_sleep(False)
-        if position > self.position:
-            self._roll_down(position)
-        else:
-            self._roll_up(position)
-        self.position = position
-        self.stepper.set_sleep(True)
 
-    def _roll_up(self, position):
-        position_diff = self.position - position
-        self.stepper.go(
-            self._convert_position_diff_to_steps(position_diff), RollDirection.UP.value
-        )
-
-    def _roll_down(self, position):
         position_diff = position - self.position
-        self.stepper.go(
-            self._convert_position_diff_to_steps(position_diff),
-            RollDirection.DOWN.value,
-        )
+        roll_direction = RollDirection.DOWN
+        if position_diff < 0:
+            position_diff = abs(position_diff)
+            roll_direction = RollDirection.UP
+
+        for index in range(position_diff):
+            if stopped():
+                return
+            self.stepper.go(
+                self.steps_for_1_position, roll_direction.value,
+            )
+            self.position = (
+                self.position + 1
+                if roll_direction == RollDirection.DOWN
+                else self.position - 1
+            )
+
+        self.stepper.set_sleep(True)
 
     def _convert_position_diff_to_steps(self, position_diff):
         steps_for_1_rotation = 360 / 1.8 * self.stepper.get_step_mode_multiplier()
-        steps_to_position_100 = steps_for_1_rotation * RollerBlind.ROTATIONS_UNTIL_DOWN
-        return int(steps_to_position_100 / 100 * position_diff)
+        steps_until_down = steps_for_1_rotation * RollerBlind.ROTATIONS_UNTIL_DOWN
+        return int((steps_until_down * position_diff) / 1000)
