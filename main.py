@@ -123,6 +123,21 @@ def handle_time(pin, value):
         logger.info(f"Daily roll down set to {time}")
 
 
+@blynk.handle_event("write V13")
+def handle_kill_switch(pin, value):
+    if not int(value[0]):
+        return
+
+    logger.warn(f"Kill switch called, stopping motor...")
+    if current_thread is not None:
+        current_thread.stop()
+        current_thread.join()
+
+    logger.warn(f"Pushing position to Blynk servers...")
+    blynk.virtual_write(VirtualPin.POSITION.value, roller_blind.position)
+    logger.info(f"Pushing completed")
+
+
 @blynk.handle_event("disconnect")
 def handle_disconnect():
     logger.info(f"Pushing latest values to Blynk servers...")
