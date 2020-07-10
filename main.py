@@ -124,16 +124,16 @@ def handle_time(pin, value):
 
 
 @blynk.handle_event("write V14")
-def handle_kill_switch(pin, value):
+def handle_stop(pin, value):
     if not int(value[0]):
         return
 
-    logger.warn(f"Kill switch called, stopping motor...")
+    logger.warning(f"Stopping motor...")
     if current_thread is not None:
         current_thread.stop()
         current_thread.join()
 
-    logger.warn(f"Pushing position to Blynk servers...")
+    logger.info(f"Pushing position to Blynk servers...")
     blynk.virtual_write(VirtualPin.POSITION.value, roller_blind.position)
     logger.info(f"Pushing completed")
 
