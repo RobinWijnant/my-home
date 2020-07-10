@@ -78,7 +78,7 @@ def handle_update_position(pin, value):
         logger.info(f"New position set ({value[0]}‰)")
         return
 
-    logger.info(f"Setting new position ({value[0]}‰)...")
+    logger.info(f"Rolling from {roller_blind.position}‰ to position {value[0]}‰...")
     thread(roller_blind.roll, [int(value[0])])
 
 
