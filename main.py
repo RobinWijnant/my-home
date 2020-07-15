@@ -47,8 +47,8 @@ def do_daily_roll(direction_up):
         blynk.virtual_write(VirtualPin.POSITION.value, 0)
     else:
         logger.info(f"Daily roll down starting...")
-        thread(roller_blind.roll, [100])
-        blynk.virtual_write(VirtualPin.POSITION.value, 100)
+        thread(roller_blind.roll, [1000])
+        blynk.virtual_write(VirtualPin.POSITION.value, 1000)
 
 
 def int_to_time(value):
