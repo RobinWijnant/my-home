@@ -31,12 +31,13 @@ class RollerBlind:
         self.position = 0  # [0,1000]
         self.steps_for_1_position = self._convert_position_diff_to_steps(1)
 
-    def calibrate(self):
+    def calibrate(self, stopped):
         self.stepper.set_sleep(False)
         while not self.hall_sensor.detect():
-            self.stepper.go(
-                self._convert_position_diff_to_steps(0.1), RollDirection.UP.value
-            )
+            if stopped():
+                self.stepper.set_sleep(True)
+                return
+            self.stepper.go(self.steps_for_1_position, RollDirection.UP.value)
         self.position = 0
         self.stepper.set_sleep(True)
 
@@ -51,7 +52,7 @@ class RollerBlind:
 
         for index in range(position_diff):
             if stopped():
-                return
+                break
             self.stepper.go(
                 self.steps_for_1_position, roll_direction.value,
             )
