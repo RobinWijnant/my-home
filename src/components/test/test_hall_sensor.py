@@ -2,12 +2,12 @@ import time
 import unittest
 
 import board
-from src.hall_sensor import HallSensor
+from src.components.hall_sensor import HallSensor
 
 time.sleep(0.5)
 
-class HallSensorTest(unittest.TestCase):
 
+class HallSensorTest(unittest.TestCase):
     def setUp(self):
         self.sensor = HallSensor(board.SCL, board.SDA)
 
