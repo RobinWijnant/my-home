@@ -30,7 +30,7 @@ status = {
 }
 
 
-def thread(function, arguments=[]):
+def thread(function, arguments=None):
     global current_thread
     if current_thread is not None:
         current_thread.stop()
