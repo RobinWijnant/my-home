@@ -145,7 +145,6 @@ def handle_disconnect():
     logger.info(f"Pushing completed")
 
 
-roller_blind.calibrate(lambda: False)
 try:
     while True:
         blynk.run()
