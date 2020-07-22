@@ -2,9 +2,11 @@ import threading
 
 
 class StoppableThread(threading.Thread):
-    def __init__(self, function, *arguments, on_complete=lambda: None):
+    def __init__(self, function, *args, on_complete=lambda: None):
+        print(on_complete, args)
+
         def threadedfunction():
-            function(*arguments, self.stopped)
+            function(*args, self.stopped)
             on_complete()
 
         super().__init__(target=threadedfunction)
