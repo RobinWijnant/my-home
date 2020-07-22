@@ -30,13 +30,13 @@ status = {
 }
 
 
-def thread(function, arguments=[]):
+def thread(*args, **kwargs):
     global current_thread
     if current_thread is not None:
         current_thread.stop()
         current_thread.join()
 
-    current_thread = StoppableThread(function, arguments)
+    current_thread = StoppableThread(*args, **kwargs)
     current_thread.start()
 
 
@@ -88,10 +88,12 @@ def handle_calibrate(pin, value):
         return
 
     logger.info("Calibrating...")
-    thread(roller_blind.calibrate)
-    current_thread.on_complete(
-        lambda: blynk.virtual_write(VirtualPin.POSITION.value, roller_blind.position)
-    )
+
+    def on_complete():
+        blynk.virtual_write(VirtualPin.POSITION.value, roller_blind.position)
+        logger.info("Calibration completed")
+
+    thread(roller_blind.calibrate, on_complete=on_complete)
 
 
 @blynk.handle_event("write V12")
