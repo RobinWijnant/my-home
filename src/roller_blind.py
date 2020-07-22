@@ -38,6 +38,7 @@ class RollerBlind:
                 self.stepper.set_sleep(True)
                 return
             self.stepper.go(self.steps_for_1_position, RollDirection.UP.value)
+        print("0000")
         self.position = 0
         self.stepper.set_sleep(True)
 
