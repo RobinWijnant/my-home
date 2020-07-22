@@ -2,7 +2,7 @@ from enum import Enum
 
 import sys
 import board
-from src.components.digital_hall_sensor import DigitalHallSensor
+from src.components.hall_sensor import HallSensor
 from src.components.stepper_motor import StepperMotor
 
 
@@ -27,7 +27,7 @@ class RollerBlind:
             RollerBlind.STEP_MODE_PINS,
             RollerBlind.STEP_SLEEP_PIN,
         )
-        self.hall_sensor = DigitalHallSensor(10)
+        self.hall_sensor = HallSensor(board.SCL, board.SDA)
         self.position = 0  # [0,1000]
         self.steps_for_1_position = self._convert_position_diff_to_steps(1)
 
