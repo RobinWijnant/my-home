@@ -12,3 +12,6 @@ class StoppableThread(threading.Thread):
     def stopped(self):
         return self._cancelled.isSet()
 
+    def on_complete(self, callback):
+        callback()
+

@@ -89,7 +89,9 @@ def handle_calibrate(pin, value):
 
     logger.info("Calibrating...")
     thread(roller_blind.calibrate)
-    blynk.virtual_write(VirtualPin.POSITION.value, roller_blind.position)
+    current_thread.on_complete(
+        lambda: blynk.virtual_write(VirtualPin.POSITION.value, roller_blind.position)
+    )
 
 
 @blynk.handle_event("write V12")

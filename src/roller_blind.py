@@ -33,12 +33,13 @@ class RollerBlind:
 
     def calibrate(self, stopped):
         self.stepper.set_sleep(False)
+
         while not self.hall_sensor.detect():
             if stopped():
                 self.stepper.set_sleep(True)
                 return
             self.stepper.go(self.steps_for_1_position, RollDirection.UP.value)
-        print("0000")
+
         self.position = 0
         self.stepper.set_sleep(True)
 
