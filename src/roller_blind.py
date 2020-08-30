@@ -18,7 +18,7 @@ class RollerBlind:
     STEP_STEP_PIN = 24
     STEP_SLEEP_PIN = 17
 
-    ROTATIONS_UNTIL_DOWN = 442
+    ROTATIONS_UNTIL_DOWN = 444
 
     def __init__(self):
         self.stepper = StepperMotor(
