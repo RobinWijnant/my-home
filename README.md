@@ -1,12 +1,11 @@
 # My Home
 
-🎚 A python 3 script running on Raspberry Pi 4 that exposes handlers for Blynk.
+🎚 A python 3 script running on Raspberry Pi 4 that runs on MQTT events.
 
 ## Features
 
-- Roller blind doing an up/downwards motion based on:
-  - a fixed position
-  - a fixed time
+- Adjustable roller blind height
+- 433Mhz listener for the doorbell button
 
 ## Getting started
 
@@ -17,12 +16,11 @@ The following pip packages are required:
 ```bash
 pip3 install \
   python-dotenv \
-  blynklib \
   RpiMotorLib \
   RPi.GPIO \
-  schedule \
   adafruit_ads1x15 \
-  busio
+  busio \
+  paho-mqtt
 ```
 
 > **Note:** RPi.GPIO is installed by default on a Raspberry Pi and is not installable on other devices
@@ -32,15 +30,16 @@ pip3 install \
 Create a .env file in the root of the repository and set these variables:
 
 ```env
-BLYNK_TOKEN=yourToken
+MQTT_HOST=192.168.0.10
 ```
 
 ### Running the script
 
-Run the main script:
+Run the scripts:
 
 ```bash
-python3 main.py
+python3 src/roller_blind/main.py
+python3 src/doorbell/main.py
 ```
 
 ## Systemd service
@@ -50,15 +49,16 @@ A service is used to easily start and stop the script. It also allows to run on 
 To create the service in systemd, copy the service file into the system folder:
 
 ```bash
-cp blynk.service /lib/systemd/system/blynk.service
+cp src/roller_blind/systemd.service /lib/systemd/system/roller_blind.service
+cp src/doorbell/systemd.service /lib/systemd/system/doorbell.service
 ```
 
 Reload the daemon to recognise the new service, then start the blynk service. Enabling the service is optional, this will make it start automatically on startup.
 
 ```bash
 systemctl daemon-reload
-systemctl start blynk
-systemctl enable blynk
+systemctl start 'home:*'
+systemctl enable 'home:*'
 ```
 
 ## Running test files
@@ -68,11 +68,11 @@ This project uses the unittest module to run tests. There are no additional pack
 Run all tests:
 
 ```bash
-python3 -m unittest discover -s ./src/components/test
+python3 -m unittest discover -s ./src/roller_blind/components/test
 ```
 
 Run a single test
 
 ```bash
-python3 -m unittest src.components.test.test_stepper_motor
+python3 -m unittest src.roller_blind.components.test.test_stepper_motor
 ```
