@@ -6,8 +6,7 @@ from enum import Enum
 
 from dotenv import load_dotenv
 
-import src.logger
-from .roller_blind import RollerBlind
+from roller_blind import RollerBlind
 from ..stoppable_thread import StoppableThread
 
 load_dotenv()
@@ -34,7 +33,7 @@ def update_position(value):
     logger.info(f"Rolling from {roller_blind.position}‰ to position {value}‰...")
 
     def on_complete():
-        mqtt.publish(f"{topic}/stop", value)
+        client.publish(f"{topic}/stop", value)
         logger.info(f"Roll completed to {value}‰")
 
     thread(roller_blind.roll, value, on_complete=on_complete)
@@ -44,7 +43,7 @@ def calibrate():
     logger.info("Calibrating...")
 
     def on_complete():
-        mqtt.publish(f"{topic}/stop", 0)
+        client.publish(f"{topic}/stop", 0)
         logger.info("Calibration completed")
 
     thread(roller_blind.calibrate, on_complete=on_complete)
@@ -55,14 +54,14 @@ def interrupt():
     if current_thread is not None:
         current_thread.stop()
         current_thread.join()
-    mqtt.publish(f"{topic}/stop", roller_blind.position)
+    client.publish(f"{topic}/stop", roller_blind.position)
     logger.warning(f"Motor stopped")
 
 
 def on_connect():
     logger.info(f"Connection established with MQTT broker")
-    mqtt.subscribe(f"{topic}/#")
-    mqtt.publish(f"{topic}/calibrate", 0)
+    client.subscribe(f"{topic}/#")
+    client.publish(f"{topic}/calibrate", 0)
 
 
 def on_message(client, userdata, message):
