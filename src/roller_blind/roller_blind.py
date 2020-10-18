@@ -2,8 +2,8 @@ from enum import Enum
 
 import sys
 import board
-from components.hall_sensor import HallSensor
-from components.stepper_motor import StepperMotor
+from .components.hall_sensor import HallSensor
+from .components.stepper_motor import StepperMotor
 
 
 class RollDirection(Enum):
