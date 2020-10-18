@@ -6,8 +6,8 @@ from enum import Enum
 
 from dotenv import load_dotenv
 
-from roller_blind import RollerBlind
-from .stoppable_thread import StoppableThread
+from roller_blind.roller_blind import RollerBlind
+from common.stoppable_thread import StoppableThread
 
 load_dotenv()
 
