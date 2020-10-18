@@ -30,7 +30,7 @@ pip3 install \
   RPi.GPIO \
   python-dotenv \
   RpiMotorLib \
-  adafruit_ads1x15 \
+  adafruit-circuitpython-ads1x15 \
   paho-mqtt
 ```
 
