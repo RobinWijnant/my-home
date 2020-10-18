@@ -11,15 +11,26 @@
 
 ### Installation
 
+When running on an alpine image, install these packages:
+
+```bash
+apk add \
+  gcc \
+  python3-dev \
+  musl-dev \
+  linux-headers
+```
+
 The following pip packages are required:
 
 ```bash
 pip3 install \
+  wheel \
+  adafruit-blinka \
+  RPi.GPIO \
   python-dotenv \
   RpiMotorLib \
-  RPi.GPIO \
   adafruit_ads1x15 \
-  busio \
   paho-mqtt
 ```
 
