@@ -21,4 +21,4 @@ RUN git clone https://github.com/RobinWijnant/my-home.git
 WORKDIR /root/my-home
 
 RUN chmod +x entrypoint.sh
-CMD [ "/bin/sh", "-c", "./entrypoint.sh" ]
+ENTRYPOINT [ "/bin/sh", "-c", "./entrypoint.sh" ]
