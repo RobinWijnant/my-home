@@ -18,7 +18,7 @@ RUN pip3 install \
 WORKDIR /root
 
 RUN git clone https://github.com/RobinWijnant/my-home.git
-
 WORKDIR /root/my-home
 
-CMD [ "/bin/sh", "-c", "entrypoint.sh" ]
+RUN chmod +x entrypoint.sh
+CMD [ "/bin/sh", "-c", "./entrypoint.sh" ]
