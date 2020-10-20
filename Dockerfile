@@ -21,4 +21,4 @@ RUN git clone https://github.com/RobinWijnant/my-home.git
 
 WORKDIR /root/my-home
 
-ENTRYPOINT [ "python3", "./src/main.py" ]
+CMD [ "/usr/bin/python3", "./src/main.py" ]
