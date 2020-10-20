@@ -58,7 +58,7 @@ def interrupt():
     logger.warning(f"Motor stopped")
 
 
-def on_connect():
+def on_connect(client, userdata, flags, rc):
     logger.info(f"Connection established with MQTT broker")
     client.subscribe(f"{topic}/#")
     client.publish(f"{topic}/calibrate", 0)
