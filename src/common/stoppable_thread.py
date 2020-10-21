@@ -13,6 +13,7 @@ class StoppableThread(threading.Thread):
 
     def stop(self):
         self._cancelled.set()
+        super().join()
 
     def stopped(self):
         return self._cancelled.isSet()
