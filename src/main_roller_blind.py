@@ -35,7 +35,7 @@ def update_position(value):
     def on_complete():
         print("goes into complete")
         print(value)
-        client.publish(f"{topic}/stop", value)
+        # client.publish(f"{topic}/stop", roller_blind.position)
         logger.info(f"Roll completed to {value}‰")
 
     thread(roller_blind.roll, value, on_complete=on_complete)
