@@ -53,7 +53,10 @@ def interrupt():
     logger.warning(f"Stopping motor...")
     if current_thread is not None:
         current_thread.stop()
+        print("stop done")
         current_thread.join()
+        print("join done")
+    print(type(111), type(roller_blind.position), roller_blind.position)
     client.publish(f"{topic}/stop", roller_blind.position)
     logger.warning(f"Motor stopped")
 
@@ -75,6 +78,7 @@ def on_message(client, userdata, message):
 
 try:
     logger.info(f"Connecting to MQTT broker...")
+    client.enable_logger(logger=logger)
     client.username_pw_set(os.getenv("MQTT_USER"), os.getenv("MQTT_PASS"))
     client.on_connect = on_connect
     client.on_message = on_message
