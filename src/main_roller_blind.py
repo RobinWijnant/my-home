@@ -6,6 +6,7 @@ from enum import Enum
 
 from dotenv import load_dotenv
 
+import common.logger
 from roller_blind.roller_blind import RollerBlind
 from common.stoppable_thread import StoppableThread
 
