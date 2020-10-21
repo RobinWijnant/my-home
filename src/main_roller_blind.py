@@ -34,6 +34,7 @@ def update_position(value):
 
     def on_complete():
         print("goes into complete")
+        print(value)
         client.publish(f"{topic}/stop", value)
         logger.info(f"Roll completed to {value}‰")
 
