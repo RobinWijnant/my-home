@@ -1,14 +1,6 @@
-FROM alpine
+FROM python:3.8
 
-RUN apk add \
-  gcc \
-  python3-dev \
-  py3-pip \
-  musl-dev \
-  linux-headers \
-  git
-
-RUN pip3 install \
+RUN pip install \
   RPi.GPIO \
   python-dotenv \
   RpiMotorLib \
