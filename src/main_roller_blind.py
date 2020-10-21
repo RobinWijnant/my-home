@@ -16,7 +16,6 @@ logger = logging.getLogger("home")
 roller_blind = RollerBlind()
 client = mqtt.Client()
 current_thread = None
-is_position_synced = False
 topic = "roller_blind"
 
 
@@ -55,7 +54,8 @@ def interrupt():
     if current_thread is not None:
         current_thread.stop()
         current_thread.join()
-    client.publish(f"{topic}/stop", roller_blind.position)
+    client.publish(f"{topic}/stop", 111)
+    print(type(111), type(roller_blind.position), roller_blind.position)
     logger.warning(f"Motor stopped")
 
 
