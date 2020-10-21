@@ -33,6 +33,7 @@ def update_position(value):
     logger.info(f"Rolling from {roller_blind.position}‰ to position {value}‰...")
 
     def on_complete():
+        print("goes into complete")
         client.publish(f"{topic}/stop", value)
         logger.info(f"Roll completed to {value}‰")
 
