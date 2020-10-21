@@ -66,11 +66,11 @@ def on_connect(client, userdata, flags, rc):
 
 
 def on_message(client, userdata, message):
-    if message.topic is f"{topic}/calibrate":
+    if message.topic == f"{topic}/calibrate":
         calibrate()
-    elif message.topic is f"{topic}/start":
+    elif message.topic == f"{topic}/start":
         update_position(int(message.payload))
-    elif message.topic is f"{topic}/force_stop":
+    elif message.topic == f"{topic}/force_stop":
         interrupt()
 
 
