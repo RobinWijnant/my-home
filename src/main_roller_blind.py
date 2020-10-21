@@ -75,7 +75,7 @@ def on_message(client, userdata, message):
 
 try:
     logger.info(f"Connecting to MQTT broker...")
-    enable_logger(logger="home")
+    client.enable_logger(logger="home")
     client.on_connect = on_connect
     client.on_message = on_message
     client.connect(os.getenv("MQTT_HOST"))
