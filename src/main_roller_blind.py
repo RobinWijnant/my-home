@@ -23,7 +23,6 @@ def thread(*args, **kwargs):
     global current_thread
     if current_thread is not None:
         current_thread.stop()
-        current_thread.join()
 
     current_thread = StoppableThread(*args, **kwargs)
     current_thread.start()
@@ -33,10 +32,8 @@ def update_position(value):
     logger.info(f"Rolling from {roller_blind.position}‰ to position {value}‰...")
 
     def on_complete():
-        print("goes into complete")
-        print(value)
-        # client.publish(f"{topic}/stop", roller_blind.position)
-        logger.info(f"Roll completed to {value}‰")
+        client.publish(f"{topic}/stop", roller_blind.position)
+        logger.info(f"Roll completed to {roller_blind.position}‰")
 
     thread(roller_blind.roll, value, on_complete=on_complete)
 
@@ -56,8 +53,6 @@ def interrupt():
     if current_thread is not None:
         current_thread.stop()
         print("stop done")
-        current_thread.join()
-        print("join done")
     print(type(111), type(roller_blind.position), roller_blind.position)
     client.publish(f"{topic}/stop", roller_blind.position)
     logger.warning(f"Motor stopped")
@@ -92,7 +87,6 @@ except KeyboardInterrupt:
 
     if current_thread is not None:
         current_thread.stop()
-        current_thread.join()
 
     client.disconnect()
     logger.warning("Script interrupted by user")
