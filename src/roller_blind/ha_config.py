@@ -1,14 +1,7 @@
 def getConfig(topic):
     return {
         "name": "Window cover",
-        "unique_id": "window_cover",
         "device_class": "blind",
-        "device": {
-            "name": "Docker image",
-            "model": "Python 3",
-            "manufacturer": "Robin Wijnant",
-            "identifiers": ("window_cover"),
-        },
         "command_topic": f"{topic}/set",
         "position_topic": f"{topic}/position",
         "availability": {
