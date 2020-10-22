@@ -1,6 +1,7 @@
 def getConfig(topic):
     return {
         "name": "Window cover",
+        "unique_id": "window_cover",
         "device_class": "blind",
         "command_topic": f"{topic}/set",
         "position_topic": f"{topic}/position",
