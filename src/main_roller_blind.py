@@ -54,8 +54,6 @@ def interrupt():
     logger.warning(f"Stopping motor...")
     if current_thread is not None:
         current_thread.stop()
-        print("stop done")
-    print(type(111), type(roller_blind.position), roller_blind.position)
     client.publish(f"{topic}/position", roller_blind.position)
     logger.warning(f"Motor stopped")
 
