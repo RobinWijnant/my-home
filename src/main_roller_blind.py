@@ -1,11 +1,13 @@
 import logging
 import os
+import json
 import paho.mqtt.client as mqtt
 from concurrent.futures import ThreadPoolExecutor
 from enum import Enum
 
 from dotenv import load_dotenv
 
+from roller_blind.ha_config import getConfig
 import common.logger
 from roller_blind.roller_blind import RollerBlind
 from common.stoppable_thread import StoppableThread
@@ -16,7 +18,7 @@ logger = logging.getLogger("home")
 roller_blind = RollerBlind()
 client = mqtt.Client()
 current_thread = None
-topic = "roller_blind"
+topic = f"{os.getenv('MQTT_PREFIX')}/cover/{os.getenv('DEVICE_ID')}"
 
 
 def thread(*args, **kwargs):
@@ -60,6 +62,10 @@ def interrupt():
 
 def on_connect(client, userdata, flags, rc):
     logger.info(f"Connection established with MQTT broker")
+    config = getConfig(topic)
+    client.publish(f"{topic}/config", json.dumps(config))
+    client.will_set(f"{topic}/availability", "offline")
+    client.publish(f"{topic}/availability", "online")
     client.subscribe(f"{topic}/#")
     client.publish(f"{topic}/calibrate", 0)
 
