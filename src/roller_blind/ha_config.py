@@ -1,6 +1,3 @@
-import os
-
-
 def getConfig(topic):
     return {
         "name": "Window cover",

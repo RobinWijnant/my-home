@@ -34,7 +34,7 @@ def update_position(value):
     logger.info(f"Rolling from {roller_blind.position}‰ to position {value}‰...")
 
     def on_complete():
-        client.publish(f"{topic}/stop", roller_blind.position)
+        client.publish(f"{topic}/position", roller_blind.position)
         logger.info(f"Roll completed to {roller_blind.position}‰")
 
     thread(roller_blind.roll, value, on_complete=on_complete)
@@ -44,7 +44,7 @@ def calibrate():
     logger.info("Calibrating...")
 
     def on_complete():
-        client.publish(f"{topic}/stop", 0)
+        client.publish(f"{topic}/position", 0)
         logger.info("Calibration completed")
 
     thread(roller_blind.calibrate, on_complete=on_complete)
@@ -56,7 +56,7 @@ def interrupt():
         current_thread.stop()
         print("stop done")
     print(type(111), type(roller_blind.position), roller_blind.position)
-    client.publish(f"{topic}/stop", roller_blind.position)
+    client.publish(f"{topic}/position", roller_blind.position)
     logger.warning(f"Motor stopped")
 
 
@@ -73,10 +73,15 @@ def on_connect(client, userdata, flags, rc):
 def on_message(client, userdata, message):
     if message.topic == f"{topic}/calibrate":
         calibrate()
-    elif message.topic == f"{topic}/start":
+    elif message.topic == f"{topic}/set":
+        if message.payload == "OPEN":
+            update_position(0)
+        elif message.payload == "CLOSE":
+            update_position(1000)
+        else:
+            interrupt()
+    elif message.topic == f"{topic}/set_position":
         update_position(int(message.payload))
-    elif message.topic == f"{topic}/force_stop":
-        interrupt()
 
 
 try:
