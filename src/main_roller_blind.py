@@ -74,6 +74,8 @@ def on_message(client, userdata, message):
     if message.topic == f"{topic}/calibrate":
         calibrate()
     elif message.topic == f"{topic}/set":
+        print(message.topic)
+        print(message.payload)
         if message.payload == "OPEN":
             update_position(0)
         elif message.payload == "CLOSE":
