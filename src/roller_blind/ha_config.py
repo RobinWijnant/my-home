@@ -7,7 +7,7 @@ def getConfig(topic):
             "name": "Docker image",
             "model": "Python 3",
             "manufacturer": "Robin Wijnant",
-            "identifiers": ("robinwijnant/my-home"),
+            "identifiers": ("window_cover"),
         },
         "command_topic": f"{topic}/set",
         "position_topic": f"{topic}/position",
