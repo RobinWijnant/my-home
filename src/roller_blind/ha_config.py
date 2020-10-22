@@ -13,6 +13,6 @@ def getConfig(topic):
         "payload_open": "OPEN",
         "payload_close": "CLOSE",
         "payload_stop": "STOP",
-        "position_open": 1000,
-        "position_closed": 0,
+        "position_open": 0,
+        "position_closed": 1000,
     }
