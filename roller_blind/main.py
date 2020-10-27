@@ -7,9 +7,9 @@ from enum import Enum
 
 from dotenv import load_dotenv
 
-from roller_blind.ha_config import getConfig
+from ha_config import getConfig
 import common.logger
-from roller_blind.roller_blind import RollerBlind
+from roller_blind import RollerBlind
 from common.stoppable_thread import StoppableThread
 
 load_dotenv()
