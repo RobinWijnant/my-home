@@ -1,33 +1,26 @@
 import logging
 import os
 import json
+import sys
 import paho.mqtt.client as mqtt
 from concurrent.futures import ThreadPoolExecutor
 from enum import Enum
 
 from dotenv import load_dotenv
 
-from roller_blind.ha_config import getConfig
+sys.path.append("../packages")
+from ha_config import getConfig
 import common.logger
-from roller_blind.roller_blind import RollerBlind
-from common.stoppable_thread import StoppableThread
+from roller_blind import RollerBlind
+from common.thread_manager import ThreadManager
 
 load_dotenv()
 
 logger = logging.getLogger("home")
 roller_blind = RollerBlind()
 client = mqtt.Client()
-current_thread = None
+thread_manager = ThreadManager()
 topic = f"{os.getenv('MQTT_PREFIX')}/cover/{os.getenv('DEVICE_ID')}"
-
-
-def thread(*args, **kwargs):
-    global current_thread
-    if current_thread is not None:
-        current_thread.stop()
-
-    current_thread = StoppableThread(*args, **kwargs)
-    current_thread.start()
 
 
 def update_position(value):
@@ -37,7 +30,7 @@ def update_position(value):
         client.publish(f"{topic}/position", roller_blind.position)
         logger.info(f"Roll completed to {roller_blind.position}‰")
 
-    thread(roller_blind.roll, value, on_complete=on_complete)
+    thread_manager.execute(roller_blind.roll, value, on_complete=on_complete)
 
 
 def calibrate():
@@ -47,15 +40,14 @@ def calibrate():
         client.publish(f"{topic}/position", 0)
         logger.info("Calibration completed")
 
-    thread(roller_blind.calibrate, on_complete=on_complete)
+    thread_manager.execute(roller_blind.calibrate, on_complete=on_complete)
 
 
 def interrupt():
     logger.warning(f"Stopping motor...")
-    if current_thread is not None:
-        current_thread.stop()
+    thread_manager.stop()
     client.publish(f"{topic}/position", roller_blind.position)
-    logger.warning(f"Motor stopped")
+    logger.warning(f"Motor stopped at {roller_blind.position}")
 
 
 def on_connect(client, userdata, flags, rc):
@@ -93,9 +85,6 @@ try:
 
 except KeyboardInterrupt:
     print()
-
-    if current_thread is not None:
-        current_thread.stop()
-
+    thread_manager.stop()
     client.disconnect()
     logger.warning("Script interrupted by user")
