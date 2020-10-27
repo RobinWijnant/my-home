@@ -21,6 +21,7 @@ def on_connect(client, userdata, flags, rc):
     logger.info(f"Connection established with MQTT broker")
     main_config = ha_config.get_main_button_config(topic)
     client.publish(f"{topic}/config", json.dumps(main_config))
+    client.publish(f"{topic}/press", "PRESS TEST")
 
 
 try:
