@@ -1,76 +1,27 @@
 # My Home
 
-🎚 A python 3 script running on Raspberry Pi 4 that runs on MQTT events.
-
-## Features
+🎚 Python 3 scripts to run in a docker image next to Home Assistant on a Raspberry Pi 4.
 
 - Adjustable roller blind height
 - 433Mhz listener for the doorbell button
 
-## Getting started
+## Docker config in Portainer (in Home Assistant)
 
-### Installation
+### Creating the image
 
-When running on an alpine image, install these packages:
+1. Go to images and click the 'build new image' button.
+1. Enter the name for the image
+1. Select a docker file from this repo
+1. Build the image
 
-```bash
-apk add \
-  gcc \
-  python3-dev \
-  musl-dev \
-  linux-headers
-```
+### Creating the container
 
-The following pip packages are required:
-
-```bash
-pip3 install \
-  wheel \
-  adafruit-blinka \
-  RPi.GPIO \
-  python-dotenv \
-  RpiMotorLib \
-  adafruit-circuitpython-ads1x15 \
-  paho-mqtt
-```
-
-> **Note:** RPi.GPIO is installed by default on a Raspberry Pi and is not installable on other devices
-
-### Environment
-
-Create a .env file in the root of the repository and set these variables:
-
-```env
-MQTT_HOST=192.168.0.10
-```
-
-### Running the script
-
-Run the scripts:
-
-```bash
-python3 src/roller_blind/main.py
-python3 src/doorbell/main.py
-```
-
-## Systemd service
-
-A service is used to easily start and stop the script. It also allows to run on startup.
-
-To create the service in systemd, copy the service file into the system folder:
-
-```bash
-cp src/roller_blind/systemd.service /lib/systemd/system/roller_blind.service
-cp src/doorbell/systemd.service /lib/systemd/system/doorbell.service
-```
-
-Reload the daemon to recognise the new service, then start the blynk service. Enabling the service is optional, this will make it start automatically on startup.
-
-```bash
-systemctl daemon-reload
-systemctl start 'home:*'
-systemctl enable 'home:*'
-```
+1. Select the image you previously created
+1. Uncheck 'Always pull the image'
+1. In the 'Command and logging' tab, check the 'Interactive & TTY' console
+1. In the 'Env' tab, add the env variables
+1. In the 'Runtime & resources' tab, check Privileged mode (to have access to GPIO and other devices)
+1. Deploy the container
 
 ## Running test files
 
