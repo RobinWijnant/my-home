@@ -9,7 +9,7 @@ RUN pip install \
 
 WORKDIR /root
 
-RUN git clone https://github.com/RobinWijnant/my-home.git
+RUN git clone -b doorbell https://github.com/RobinWijnant/my-home.git
 WORKDIR /root/my-home/roller_blind
 
 RUN chmod +x entrypoint.sh
