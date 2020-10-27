@@ -1,4 +1,4 @@
-def getConfig(topic):
+def get_config(topic):
     return {
         "name": "Window cover",
         "device_class": "blind",
