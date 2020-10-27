@@ -1,12 +1,14 @@
 import logging
 import os
 import json
+import sys
 import paho.mqtt.client as mqtt
 from concurrent.futures import ThreadPoolExecutor
 from enum import Enum
 
 from dotenv import load_dotenv
 
+sys.path.append("..")
 from ha_config import getConfig
 import common.logger
 from roller_blind import RollerBlind
