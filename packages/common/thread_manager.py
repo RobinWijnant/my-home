@@ -1,6 +1,6 @@
 import threading
 
-from stoppable_thread import StoppableThread
+from common.stoppable_thread import StoppableThread
 
 
 class ThreadManager:
