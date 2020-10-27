@@ -65,7 +65,6 @@ class RollerBlind:
             )
 
         self.stepper.set_sleep(True)
-        print("sleep set")
 
     def _convert_position_diff_to_steps(self, position_diff):
         steps_for_1_rotation = 360 / 1.8 * self.stepper.get_step_mode_multiplier()

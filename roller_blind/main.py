@@ -47,7 +47,7 @@ def interrupt():
     logger.warning(f"Stopping motor...")
     thread_manager.stop()
     client.publish(f"{topic}/position", roller_blind.position)
-    logger.warning(f"Motor stopped")
+    logger.warning(f"Motor stopped at {roller_blind.position}")
 
 
 def on_connect(client, userdata, flags, rc):
