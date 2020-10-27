@@ -8,7 +8,7 @@ from enum import Enum
 
 from dotenv import load_dotenv
 
-sys.path.append("..")
+sys.path.append("../packages")
 from ha_config import getConfig
 import common.logger
 from roller_blind import RollerBlind
