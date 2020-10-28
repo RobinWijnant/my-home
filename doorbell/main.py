@@ -28,9 +28,11 @@ def on_connect(client, userdata, flags, rc):
     thread_manager.execute(listen_click)
 
 
-def listen_click():
+def listen_click(stopped):
     logger.info(f"Listening to doorbell button...")
     while True:
+        if stopped():
+            break
         if r_switch.is_available():
             message = r_switch.read()
             logger.info(f"New button press {json.dumps(message)}")
