@@ -1,4 +1,3 @@
-import board
 from rpi_rf import RFDevice
 
 
