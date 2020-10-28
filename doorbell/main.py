@@ -2,6 +2,7 @@ import logging
 import os
 import json
 import sys
+import time
 import paho.mqtt.client as mqtt
 
 from dotenv import load_dotenv
@@ -36,6 +37,7 @@ def listen_click(stopped):
         if r_switch.is_available():
             message = r_switch.read()
             logger.info(f"New button press {json.dumps(message)}")
+        time.sleep(0.01)
 
 
 try:
