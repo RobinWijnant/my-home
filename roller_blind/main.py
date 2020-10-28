@@ -50,7 +50,7 @@ def interrupt():
 
 def on_connect(client, userdata, flags, rc):
     logger.info(f"Connection established with MQTT broker")
-    config = getConfig(topic)
+    config = get_config(topic)
     client.publish(f"{topic}/config", json.dumps(config))
     client.will_set(f"{topic}/availability", "offline")
     client.publish(f"{topic}/availability", "online")
