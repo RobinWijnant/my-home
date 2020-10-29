@@ -22,6 +22,6 @@ class RadioSwitch:
         return {
             "code": self.rf_device.rx_code,
             "pulse_length": self.rf_device.rx_pulselength,
-            "protocol": self.rf_device.rx_protocol,
+            "protocol": self.rf_device.rx_proto,
         }
 
