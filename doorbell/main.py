@@ -37,7 +37,14 @@ def listen_click(stopped):
         if r_switch.is_available():
             message = r_switch.read()
             logger.info(f"New button press {json.dumps(message)}")
-            # 15475652 15475650
+            if message["code"] is 15475650:
+                client.publish(f"{topic}/press", "main")
+                logger.info("Main button pressed")
+                time.sleep(2)
+            if message["code"] is 15475652:
+                client.publish(f"{topic}/press", "guest")
+                logger.info("Guest button pressed")
+                time.sleep(2)
         time.sleep(0.01)
 
 
