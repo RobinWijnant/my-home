@@ -2,7 +2,7 @@ from rpi_rf import RFDevice
 
 
 class RadioSwitch:
-    DATA_PIN = 17
+    DATA_PIN = 27
 
     def __init__(self):
         self.rf_device = RFDevice(RadioSwitch.DATA_PIN)

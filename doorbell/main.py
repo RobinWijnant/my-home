@@ -37,6 +37,7 @@ def listen_click(stopped):
         if r_switch.is_available():
             message = r_switch.read()
             logger.info(f"New button press {json.dumps(message)}")
+            # 15475652 15475650
         time.sleep(0.01)
 
 
