@@ -25,7 +25,7 @@ thread_manager = ThreadManager()
 def on_connect(client, userdata, flags, rc):
     logger.info(f"Connection established with MQTT broker")
     main_config = ha_config.get_main_button_config(topic)
-    client.publish(f"{topic}/config", json.dumps(main_config))
+    client.publish(f"{topic}/config", json.dumps(main_config), retain=True)
     thread_manager.execute(listen_click)
 
 
@@ -50,7 +50,7 @@ def listen_click(stopped):
 
 try:
     logger.info(f"Connecting to MQTT broker...")
-    client.enable_logger(logger=logger)
+    # client.enable_logger(logger=logger)
     client.username_pw_set(os.getenv("MQTT_USER"), os.getenv("MQTT_PASS"))
     client.on_connect = on_connect
     client.connect(os.getenv("MQTT_HOST"))

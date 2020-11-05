@@ -25,7 +25,7 @@ def update_position(value):
     logger.info(f"Rolling from {roller_blind.position}‰ to position {value}‰...")
 
     def on_complete():
-        client.publish(f"{topic}/position", roller_blind.position)
+        client.publish(f"{topic}/position", roller_blind.position, retain=True)
         logger.info(f"Roll completed to {roller_blind.position}‰")
 
     thread_manager.execute(roller_blind.roll, value, on_complete=on_complete)
@@ -35,7 +35,7 @@ def calibrate():
     logger.info("Calibrating...")
 
     def on_complete():
-        client.publish(f"{topic}/position", 0)
+        client.publish(f"{topic}/position", 0, retain=True)
         logger.info("Calibration completed")
 
     thread_manager.execute(roller_blind.calibrate, on_complete=on_complete)
@@ -44,18 +44,18 @@ def calibrate():
 def interrupt():
     logger.warning(f"Stopping motor...")
     thread_manager.stop()
-    client.publish(f"{topic}/position", roller_blind.position)
+    client.publish(f"{topic}/position", roller_blind.position, retain=True)
     logger.warning(f"Motor stopped at {roller_blind.position}")
 
 
 def on_connect(client, userdata, flags, rc):
     logger.info(f"Connection established with MQTT broker")
     config = get_config(topic)
-    client.publish(f"{topic}/config", json.dumps(config))
-    client.will_set(f"{topic}/availability", "offline")
-    client.publish(f"{topic}/availability", "online")
+    client.publish(f"{topic}/config", json.dumps(config), retain=True)
+    client.will_set(f"{topic}/availability", "offline", retain=True)
+    client.publish(f"{topic}/availability", "online", retain=True)
     client.subscribe(f"{topic}/#")
-    client.publish(f"{topic}/calibrate", 0)
+    client.publish(f"{topic}/calibrate", 0, retain=True)
 
 
 def on_message(client, userdata, message):
@@ -74,7 +74,7 @@ def on_message(client, userdata, message):
 
 try:
     logger.info(f"Connecting to MQTT broker...")
-    client.enable_logger(logger=logger)
+    # client.enable_logger(logger=logger)
     client.username_pw_set(os.getenv("MQTT_USER"), os.getenv("MQTT_PASS"))
     client.on_connect = on_connect
     client.on_message = on_message
