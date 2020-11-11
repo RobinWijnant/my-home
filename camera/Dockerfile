@@ -13,4 +13,5 @@ RUN cp -rf ./motion /etc/motion
 
 EXPOSE 8080 8081
 
-ENTRYPOINT [ "motion", "-n" ]
+RUN chmod +x entrypoint.sh
+ENTRYPOINT [ "/bin/sh", "-c", "./entrypoint.sh" ]
