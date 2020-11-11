@@ -10,8 +10,6 @@ WORKDIR /root
 RUN git clone https://github.com/RobinWijnant/my-home.git
 WORKDIR /root/my-home/camera
 
-RUN cp -rf ./motion /etc/motion
-
 EXPOSE 8080 8081
 
 RUN chmod +x entrypoint.sh
