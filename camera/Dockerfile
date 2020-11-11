@@ -1,7 +1,10 @@
 # motion is only available on the testing repo on alpine edge
-FROM alpine:edge
+FROM debian
 
-RUN apk add motion
+RUN apt-get update
+RUN apt-get -y install \
+  git \
+  motion
 
 WORKDIR /root
 RUN git clone https://github.com/RobinWijnant/my-home.git
