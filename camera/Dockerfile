@@ -1,7 +1,7 @@
 # motion is only available on the testing repo on alpine edge
 FROM alpine:edge
 
-RUN apk motion
+RUN apk add motion
 
 WORKDIR /root
 RUN git clone https://github.com/RobinWijnant/my-home.git
