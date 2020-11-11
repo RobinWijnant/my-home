@@ -1,9 +1,7 @@
-FROM python:3.8-alpine
+# motion is only available on the testing repo on alpine edge
+FROM alpine:edge
 
-RUN apk add --update alpine-sdk
-
-RUN apk add --no-cache -X http://dl-cdn.alpinelinux.org/alpine/edge/testing \
-  motion
+RUN apk motion
 
 WORKDIR /root
 RUN git clone https://github.com/RobinWijnant/my-home.git
