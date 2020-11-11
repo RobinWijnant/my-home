@@ -1,4 +1,6 @@
-FROM python:3.8
+FROM python:3.8-alpine
+
+RUN apk add --update alpine-sdk
 
 RUN pip install \
   RPi.GPIO \

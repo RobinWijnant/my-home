@@ -1,4 +1,6 @@
-FROM python:3.8
+FROM python:3.8-alpine
+
+RUN apk add --update alpine-sdk
 
 RUN pip install \
   RPi.GPIO \
@@ -7,7 +9,6 @@ RUN pip install \
   rpi-rf
 
 WORKDIR /root
-
 RUN git clone https://github.com/RobinWijnant/my-home.git
 WORKDIR /root/my-home/doorbell
 
