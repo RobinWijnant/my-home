@@ -37,7 +37,7 @@ def listen_click(stopped):
         if r_switch.is_available():
             message = r_switch.read()
             logger.info(f"New signal received {json.dumps(message)}")
-            if message["code"] == 15475650 or message["code"] == 8388608:
+            if message["code"] == 15475650:
                 client.publish(f"{topic}/press", "main")
                 logger.info("Main button pressed")
                 time.sleep(2)
