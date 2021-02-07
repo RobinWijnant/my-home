@@ -55,7 +55,6 @@ def on_connect(client, userdata, flags, rc):
     client.will_set(f"{topic}/availability", "offline", retain=True)
     client.publish(f"{topic}/availability", "online", retain=True)
     client.subscribe(f"{topic}/#")
-    client.publish(f"{topic}/calibrate", 0, retain=True)
 
 
 def on_message(client, userdata, message):
@@ -79,6 +78,7 @@ try:
     client.on_connect = on_connect
     client.on_message = on_message
     client.connect(os.getenv("MQTT_HOST"))
+    calibrate()
     client.loop_forever()
 
 except KeyboardInterrupt:
