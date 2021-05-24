@@ -1,6 +1,9 @@
-FROM python:3.8-alpine
+FROM python:3.9-alpine
 
 RUN apk add --update alpine-sdk
+
+# Fix for pip install RPi.GPIO on alpine
+ENV CFLAGS "-fcommon"
 
 RUN pip install \
   RPi.GPIO \
