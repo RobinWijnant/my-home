@@ -4,6 +4,7 @@ After=network.target
 
 [Service]
 Type=idle
+User=pi
 ExecStart=/usr/bin/python3 /home/pi/Documents/my-home/roller_blind/main.py > /var/log/roller-blind.log 2>&1
 
 [Install]
