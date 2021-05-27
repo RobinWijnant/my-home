@@ -5,7 +5,8 @@ After=network.target
 [Service]
 Type=idle
 User=pi
-ExecStart=/usr/bin/python3 /home/pi/Documents/my-home/roller_blind/main.py > /var/log/roller-blind.log 2>&1
+WorkingDirectory=/home/pi/Documents/my-home/roller_blind
+ExecStart=/usr/bin/python3 main.py > /var/log/roller-blind.log 2>&1
 
 [Install]
 WantedBy=multi-user.target
