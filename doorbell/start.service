@@ -1,0 +1,10 @@
+[Unit]
+Description=Personal Python script for the doorbell
+After=multi-user.target
+
+[Service]
+Type=idle
+ExecStart=/usr/bin/python3 /home/pi/Documents/my-home/doorbell/main.py > /var/log/doorbell.log 2>&1
+
+[Install]
+WantedBy=multi-user.target
