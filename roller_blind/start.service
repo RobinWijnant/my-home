@@ -1,6 +1,6 @@
 [Unit]
 Description=Personal Python script that connects with the Blynk App
-After=multi-user.target
+After=network.target
 
 [Service]
 Type=idle
