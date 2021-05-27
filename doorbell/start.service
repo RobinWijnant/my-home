@@ -1,6 +1,7 @@
 [Unit]
 Description=Personal Python script for the doorbell
-After=network.target
+After=systemd-networkd-wait-online.service
+Wants=systemd-networkd-wait-online.service
 
 [Service]
 Type=idle
