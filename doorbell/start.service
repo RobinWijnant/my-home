@@ -6,7 +6,7 @@ After=network.target
 Type=idle
 User=pi
 WorkingDirectory=/home/pi/Documents/my-home/doorbell
-ExecStart=/usr/bin/python3 /home/pi/Documents/my-home/doorbell/main.py > /var/log/doorbell.log 2>&1
+ExecStart=/usr/bin/python3 -u main.py > /var/log/doorbell.log 2>&1
 
 [Install]
 WantedBy=multi-user.target
