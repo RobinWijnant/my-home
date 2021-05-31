@@ -1,7 +1,6 @@
 [Unit]
 Description=Personal Python script that connects with the Blynk App
-After=systemd-networkd-wait-online.service
-Wants=systemd-networkd-wait-online.service
+After=network.target
 
 [Service]
 Type=idle
