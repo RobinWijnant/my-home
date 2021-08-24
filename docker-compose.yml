@@ -29,7 +29,7 @@ services:
     privileged: true
     network_mode: host
   duckdns:
-    image: ghcr.io/linuxserver/duckdns:version-4c2a0989
+    image: ghcr.io/linuxserver/duckdns:version-ce996582
     container_name: duckdns
     environment:
       - PUID=1000 #optional
@@ -40,36 +40,36 @@ services:
     volumes:
       - duckdns:/config #optional
     restart: unless-stopped
-  # mosquitto:
-  #   image: eclipse-mosquitto:2.0
-  #   container_name: mosquitto
-  #   ports:
-  #     - 1883:1883
-  #     - 9001:9001
-  #   restart: unless-stopped
-  # node-red:
-  #   build: .
-  #   container_name: node-red
-  #   environment:
-  #     - TZ=Europe/Brussels
-  #   image: nodered/node-red
-  #   restart: unless-stopped
-  #   ports:
-  #     - 1880:1880
-  #   volumes:
-  #     - node-red:/data
-  # esphome:
-  #   image: esphome/esphome:2021.8.0
-  #   container_name: esphome
-  #   volumes:
-  #     - esphome:/config
-  #     - /etc/localtime:/etc/localtime:ro
-  #   network_mode: host
-  #   restart: unless-stopped
+  mosquitto:
+    image: eclipse-mosquitto:2.0
+    container_name: mosquitto
+    ports:
+      - 1883:1883
+      - 9001:9001
+    restart: unless-stopped
+  node-red:
+    build: .
+    container_name: node-red
+    environment:
+      - TZ=Europe/Brussels
+    image: nodered/node-red
+    restart: unless-stopped
+    ports:
+      - 1880:1880
+    volumes:
+      - node-red:/data
+  esphome:
+    image: esphome/esphome:2021.8.0
+    container_name: esphome
+    volumes:
+      - esphome:/config
+      - /etc/localtime:/etc/localtime:ro
+    network_mode: host
+    restart: unless-stopped
 
 volumes:
   unifi-controller:
   home-assistant:
   duckdns:
-  # node-red:
-  # esphome:
+  node-red:
+  esphome:
