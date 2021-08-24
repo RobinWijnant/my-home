@@ -1,0 +1,75 @@
+version: "3.8"
+services:
+  unifi-controller:
+    image: ghcr.io/linuxserver/unifi-controller:version-6.2.26
+    container_name: unifi-controller
+    environment:
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - unifi-controller:/config
+    ports:
+      - 3478:3478/udp
+      - 10001:10001/udp
+      - 8080:8080
+      - 8443:8443
+      - 1900:1900/udp #optional
+      - 8843:8843 #optional
+      - 8880:8880 #optional
+      - 6789:6789 #optional
+      - 5514:5514/udp #optional
+    restart: unless-stopped
+  home-assistant:
+    container_name: home-assistant
+    image: ghcr.io/home-assistant/raspberrypi4-homeassistant:2021.8.8
+    volumes:
+      - home-assistant:/config
+      - /etc/localtime:/etc/localtime:ro
+    restart: unless-stopped
+    privileged: true
+    network_mode: host
+  # duckdns:
+  #   image: ghcr.io/linuxserver/duckdns:version-6b959acf
+  #   container_name: duckdns
+  #   environment:
+  #     - PUID=1000 #optional
+  #     - PGID=1000 #optional
+  #     - TZ=Europe/Brussels
+  #     - SUBDOMAINS=c2e5cs.duckdns.org,kwak33.duckdns.org
+  #     - TOKEN=91f6ab66-9cac-4503-8034-658943c4186a
+  #   volumes:
+  #     - duckdns:/config #optional
+  #   restart: unless-stopped
+  # mosquitto:
+  #   image: eclipse-mosquitto:2.0
+  #   container_name: mosquitto
+  #   ports:
+  #     - 1883:1883
+  #     - 9001:9001
+  #   restart: unless-stopped
+  # node-red:
+  #   build: .
+  #   container_name: node-red
+  #   environment:
+  #     - TZ=Europe/Brussels
+  #   image: nodered/node-red
+  #   restart: unless-stopped
+  #   ports:
+  #     - 1880:1880
+  #   volumes:
+  #     - node-red:/data
+  # esphome:
+  #   image: esphome/esphome:2021.8.0
+  #   container_name: esphome
+  #   volumes:
+  #     - esphome:/config
+  #     - /etc/localtime:/etc/localtime:ro
+  #   network_mode: host
+  #   restart: unless-stopped
+
+volumes:
+  unifi-controller:
+  home-assistant:
+  # duckdns:
+  # node-red:
+  # esphome:
