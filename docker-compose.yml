@@ -25,9 +25,9 @@ services:
     volumes:
       - /home/pi/home-assistant/config:/config
       - /etc/localtime:/etc/localtime:ro
+    restart: unless-stopped
     privileged: true
     network_mode: host
-    restart: unless-stopped
   duckdns:
     image: ghcr.io/linuxserver/duckdns:version-ce996582
     container_name: duckdns
@@ -53,16 +53,14 @@ services:
     environment:
       - TZ=Europe/Brussels
     image: nodered/node-red
+    restart: unless-stopped
     ports:
       - 1880:1880
     volumes:
       - node-red:/data
-    restart: unless-stopped
   esphome:
     image: esphome/esphome:2021.8.0
     container_name: esphome
-    ports:
-      - 6052:6052
     volumes:
       - esphome:/config
       - /etc/localtime:/etc/localtime:ro
