@@ -29,7 +29,7 @@ services:
     privileged: true
     network_mode: host
   duckdns:
-    image: ghcr.io/linuxserver/duckdns:version-6b959acf
+    image: ghcr.io/linuxserver/duckdns:version-4c2a0989
     container_name: duckdns
     environment:
       - PUID=1000 #optional
