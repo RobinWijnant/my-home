@@ -47,7 +47,7 @@ services:
       - 1883:1883
       - 9001:9001
     volumes:
-      - docker/mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - /home/pi/my-home/docker/mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf
     restart: unless-stopped
   node-red:
     build: docker/node-red
