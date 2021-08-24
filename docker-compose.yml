@@ -35,7 +35,7 @@ services:
       - PUID=1000 #optional
       - PGID=1000 #optional
       - TZ=Europe/Brussels
-      - SUBDOMAINS=kwak33.duckdns.org
+      - SUBDOMAINS=kwak33
       - TOKEN=91f6ab66-9cac-4503-8034-658943c4186a
     volumes:
       - duckdns:/config #optional
