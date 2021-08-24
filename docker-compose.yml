@@ -48,7 +48,7 @@ services:
       - 9001:9001
     restart: unless-stopped
   node-red:
-    build: .
+    build: docker/node-red
     container_name: node-red
     environment:
       - TZ=Europe/Brussels
