@@ -23,7 +23,7 @@ services:
     container_name: home-assistant
     image: ghcr.io/home-assistant/raspberrypi4-homeassistant:2021.8.8
     volumes:
-      - home-assistant:/config
+      - /home/pi/home-assistant/config:/config
       - /etc/localtime:/etc/localtime:ro
     restart: unless-stopped
     privileged: true
@@ -69,7 +69,6 @@ services:
 
 volumes:
   unifi-controller:
-  home-assistant:
   duckdns:
   node-red:
   esphome:
