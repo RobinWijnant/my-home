@@ -9,24 +9,20 @@ services:
     restart: unless-stopped
     privileged: true
     network_mode: host
-  ssl-proxy:
-    image: linuxserver/swag:version-1.18.0
-    container_name: ssl-proxy
-    cap_add:
-      - NET_ADMIN
+  proxy-manager:
+    image: jc21/nginx-proxy-manager:2.9.7
+    container_name: proxy-manager
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Brussels
-      - URL=kwak33.duckdns.org
-      - SUBDOMAINS=
-      - VALIDATION=duckdns
-      - DUCKDNSTOKEN=91f6ab66-9cac-4503-8034-658943c4186a
+      DB_SQLITE_FILE: /data/database.sqlite
+      # Uncomment this if IPv6 is not enabled on your host
+      # DISABLE_IPV6: 'true'
     ports:
-      - 443:443
+      - 80:80 # Public HTTP Port
+      - 443:443 # Public HTTPS Port
+      - 81:81 # Admin Web Port
     volumes:
-      - ssl-proxy:/config
-      - letsencrypt:/le-ssl/keys/letsencrypt/
+      - proxy-manager:/data
+      - letsencrypt:/etc/letsencrypt
     restart: unless-stopped
   duckdns:
     image: ghcr.io/linuxserver/duckdns:version-ce996582
@@ -89,7 +85,7 @@ services:
     restart: unless-stopped
 
 volumes:
-  ssl-proxy:
+  proxy-manager:
   letsencrypt:
   duckdns:
   node-red:
