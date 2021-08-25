@@ -28,24 +28,6 @@ services:
       - ssl-proxy:/config
       - letsencrypt:/le-ssl/keys/letsencrypt/
     restart: unless-stopped
-
-  # proxy-manager:
-  #   image: jc21/nginx-proxy-manager:2.9.7
-  #   container_name: proxy-manager
-  #   environment:
-  #     DB_SQLITE_FILE: /data/database.sqlite
-  #     # Uncomment this if IPv6 is not enabled on your host
-  #     # DISABLE_IPV6: 'true'
-  #   ports:
-  #     - 80:80 # Public HTTP Port
-  #     - 443:443 # Public HTTPS Port
-  #     - 81:81 # Admin Web Port
-  #   volumes:
-  #     - proxy:/data
-  #     - letsencrypt:/etc/letsencrypt
-  #   restart: unless-stopped
-  #   depends_on:
-  #     - letsencrypt
   duckdns:
     image: ghcr.io/linuxserver/duckdns:version-ce996582
     container_name: duckdns
