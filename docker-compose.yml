@@ -11,6 +11,7 @@ services:
     privileged: true
     network_mode: host
   web-server:
+    container_name: web-server
     image: nginx:1.21.3
     volumes:
       - /home/pi/home-assistant/media:/usr/share/nginx/html:ro
