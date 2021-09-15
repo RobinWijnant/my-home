@@ -5,6 +5,7 @@ services:
     image: ghcr.io/home-assistant/raspberrypi4-homeassistant:2021.8.8
     volumes:
       - /home/pi/home-assistant/config:/config
+      - /home/pi/home-assistant/media:/media
       - /etc/localtime:/etc/localtime:ro
     restart: unless-stopped
     privileged: true
