@@ -10,6 +10,12 @@ services:
     restart: unless-stopped
     privileged: true
     network_mode: host
+  web-server:
+    image: nginx:1.21.3
+    volumes:
+      - /home/pi/home-assistant/media:/usr/share/nginx/html:ro
+    ports:
+      - "8081:80"
   proxy-manager:
     image: jc21/nginx-proxy-manager:2.9.7
     container_name: proxy-manager
