@@ -1,5 +1,5 @@
 [Unit]
-Description=Personal Python script that connects with the Blynk App
+Description=Roller blind controller via MQTT
 After=network.target
 
 [Service]

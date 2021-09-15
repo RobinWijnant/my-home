@@ -1,5 +1,5 @@
 [Unit]
-Description=Personal Python script for the doorbell
+Description=Doorbell MQTT transmitter
 After=network.target
 
 [Service]
