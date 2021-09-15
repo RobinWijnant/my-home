@@ -6,7 +6,7 @@ After=network.target
 Type=idle
 User=pi
 WorkingDirectory=/home/pi/Documents/my-home/camera
-ExecStart=/usr/local/bin/mjpg_streamer -i 'input_uvc.so -n -f 5' -o 'output_http.so -p 80 -w /usr/local/share/mjpg-streamer/www'
+ExecStart=/usr/local/bin/mjpg_streamer -i 'input_uvc.so -n -f 5' -o 'output_http.so -p 8080 -w /usr/local/share/mjpg-streamer/www'
 
 [Install]
 WantedBy=multi-user.target
