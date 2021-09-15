@@ -1,27 +1,68 @@
 # My Home
 
-🎚 Python 3 scripts to run in a docker image next to Home Assistant on a Raspberry Pi 4.
+🎚 Python 3 scripts running on Raspberry Pi 4 that listen to MQTT events.
+
+## Features
 
 - Adjustable roller blind height
 - 433Mhz listener for the doorbell button
+- camera webserver
 
-## Docker config in Portainer (in Home Assistant)
+## Getting started
 
-### Creating the image
+### Installation
 
-1. Go to images and click the 'build new image' button.
-1. Enter the name for the image
-1. Select a docker file from this repo
-1. Build the image
+The following pip packages are required:
 
-### Creating the container
+```bash
+pip3 install \
+  wheel \
+  adafruit-blinka \
+  RPi.GPIO \
+  python-dotenv \
+  RpiMotorLib \
+  adafruit-circuitpython-ads1x15 \
+  paho-mqtt
+```
 
-1. Select the image you previously created
-1. Uncheck 'Always pull the image'
-1. In the 'Command and logging' tab, check the 'Interactive & TTY' console
-1. In the 'Env' tab, add the env variables
-1. In the 'Runtime & resources' tab, check Privileged mode (to have access to GPIO and other devices)
-1. Deploy the container
+> **Note:** RPi.GPIO is installed by default on a Raspberry Pi and is not installable on other devices
+
+### Running the script
+
+Run the scripts:
+
+```bash
+python3 src/roller_blind/main.py
+python3 src/doorbell/main.py
+```
+
+## Systemd service
+
+A service is used to easily start and stop the script. It also allows to run on startup.
+
+To create the service in systemd, copy the service file into the system folder:
+
+```bash
+cp src/roller_blind/systemd.service /lib/systemd/system/roller_blind.service
+```
+
+Edit the environment vars
+
+```bash
+systemctl edit roller-blind
+```
+
+```env
+MQTT_HOST=192.168.0.10
+```
+
+Reload the daemon to recognise the new service, then start the blynk service. Enabling the service is optional, this will make it start automatically on startup.
+
+```bash
+systemctl daemon-reload
+systemctl start 'home:*'
+systemctl enable 'home:*'
+```
 
 ## Running test files
 
