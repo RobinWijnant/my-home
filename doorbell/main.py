@@ -34,18 +34,24 @@ def listen_click(stopped):
     while True:
         if stopped():
             break
-        if r_switch.is_available():
-            message = r_switch.read()
-            logger.info(f"New signal received {json.dumps(message)}")
-            if message["code"] == 15475650:
-                client.publish(f"{topic}/press", "main")
-                logger.info("Main button pressed")
-                time.sleep(4)
-            if message["code"] == 15475652:
-                client.publish(f"{topic}/press", "guest")
-                logger.info("Guest button pressed")
-                time.sleep(4)
-        time.sleep(0.01)
+
+        if not r_switch.is_available():
+            time.sleep(0.01)
+            continue
+        
+        message = r_switch.read()
+        logger.info(f"New signal received {json.dumps(message)}")
+
+        if message["code"] == 15475650:
+            client.publish(f"{topic}/press", "main")
+            logger.info("Main button pressed")
+        if message["code"] == 15475652:
+            client.publish(f"{topic}/press", "guest")
+            logger.info("Guest button pressed")
+
+        time.sleep(1)
+        r_switch.clear()
+            
 
 
 try:

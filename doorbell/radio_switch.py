@@ -14,9 +14,11 @@ class RadioSwitch:
 
     def is_available(self):
         if self.rf_device.rx_code_timestamp != self.last_read_timestamp:
-            self.last_read_timestamp = self.rf_device.rx_code_timestamp
             return True
         return False
+
+    def clear(self):
+        self.last_read_timestamp = self.rf_device.rx_code_timestamp
 
     def read(self):
         return {
