@@ -2,7 +2,7 @@ import time
 import unittest
 
 import board
-from src.components.hall_sensor import HallSensor
+from components.hall_sensor import HallSensor
 
 time.sleep(0.5)
 
