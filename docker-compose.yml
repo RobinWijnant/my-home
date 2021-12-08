@@ -5,10 +5,18 @@ services:
     image: ghcr.io/home-assistant/raspberrypi4-homeassistant:2021.8.8
     volumes:
       - /home/pi/home-assistant/config:/config
+      - /home/pi/home-assistant/media:/media
       - /etc/localtime:/etc/localtime:ro
     restart: unless-stopped
     privileged: true
     network_mode: host
+  web-server:
+    container_name: web-server
+    image: nginx:1.21.3
+    volumes:
+      - /home/pi/home-assistant/media:/usr/share/nginx/html:ro
+    ports:
+      - "8081:80"
   proxy-manager:
     image: jc21/nginx-proxy-manager:2.9.7
     container_name: proxy-manager
