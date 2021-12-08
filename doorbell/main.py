@@ -40,11 +40,11 @@ def listen_click(stopped):
             if message["code"] == 15475650:
                 client.publish(f"{topic}/press", "main")
                 logger.info("Main button pressed")
-                time.sleep(2)
+                time.sleep(4)
             if message["code"] == 15475652:
                 client.publish(f"{topic}/press", "guest")
                 logger.info("Guest button pressed")
-                time.sleep(2)
+                time.sleep(4)
         time.sleep(0.01)
 
 
