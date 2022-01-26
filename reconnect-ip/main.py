@@ -7,7 +7,7 @@ load_dotenv()
 
 
 async def main():
-    browser = await launch(ignoreHTTPSErrors=True, headless=True)
+    browser = await launch(ignoreHTTPSErrors=True, headless=True, executablePath=os.getenv('CHROMIUM_PATH'))
     page = await browser.newPage()
     await page.goto(os.getenv("UNIFI_CONTROLLER_URL"))
 
