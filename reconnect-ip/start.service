@@ -1,0 +1,12 @@
+[Unit]
+Description=Reconnect a client from the network using the unifi controller web app
+After=network.target
+
+[Service]
+Type=idle
+User=pi
+WorkingDirectory=/home/pi/Documents/my-home/reconnect-ip
+ExecStart=/usr/bin/python3 -u main.py > /var/log/reconnect-ip.log 2>&1
+
+[Install]
+WantedBy=multi-user.target

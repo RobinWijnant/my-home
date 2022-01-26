@@ -1,0 +1,11 @@
+[Unit]
+Description=Reconnect a client from the network using the unifi controller web app every day at 7AM
+
+[Timer]
+#Execute job if it missed a run due to machine being off
+Persistent=true
+Unit=reconnect-ip.service
+OnCalendar=*-*-* 00:07:00
+
+[Install]
+WantedBy=timers.target
