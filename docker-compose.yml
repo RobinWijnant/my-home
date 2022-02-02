@@ -68,7 +68,7 @@ services:
     image: esphome/esphome:2021.8.0
     container_name: esphome
     volumes:
-      - esphome:/config
+      - /home/pi/esphome:/config
       - /etc/localtime:/etc/localtime:ro
     network_mode: host
     restart: unless-stopped
@@ -97,5 +97,4 @@ volumes:
   letsencrypt:
   duckdns:
   node-red:
-  esphome:
   unifi-controller:
