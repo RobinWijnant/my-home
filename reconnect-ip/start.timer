@@ -1,5 +1,5 @@
 [Unit]
-Description=Reconnect a client from the network using the unifi controller web app every day at 7AM
+Description=Reconnect a client from the network using the unifi controller web app timely
 
 [Timer]
 #Execute job if it missed a run due to machine being off
