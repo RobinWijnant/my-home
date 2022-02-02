@@ -68,7 +68,7 @@ services:
     image: esphome/esphome:2021.8.0
     container_name: esphome
     volumes:
-      - /home/pi/esphome:/config
+      - /home/pi/my-home/esphome:/config
       - /etc/localtime:/etc/localtime:ro
     network_mode: host
     restart: unless-stopped
