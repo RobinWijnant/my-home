@@ -28,8 +28,8 @@ captive_portal:
 
 uart:
   id: uart_bus
-  tx_pin: D0
-  rx_pin: D1
+  tx_pin: 4
+  rx_pin: 5
   baud_rate: 9600
 
 text_sensor:
