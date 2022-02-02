@@ -2,7 +2,6 @@
 Description=Reconnect a client from the network using the unifi controller web app timely
 
 [Timer]
-#Execute job if it missed a run due to machine being off
 Persistent=true
 Unit=reconnect-ip.service
 OnCalendar=*-*-* 07:00:00
