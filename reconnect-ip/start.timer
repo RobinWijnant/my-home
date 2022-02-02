@@ -1,10 +1,10 @@
 [Unit]
-Description=Reconnect a client from the network using the unifi controller web app timely
+Description=Reconnect a client from the network using the unifi controller web app every day at 7AM
 
 [Timer]
 #Execute job if it missed a run due to machine being off
 Persistent=true
-Unit=/etc/systemd/system/reconnect-ip.service
+Unit=reconnect-ip.service
 OnCalendar=*-*-* 07,13:00:00
 
 [Install]
