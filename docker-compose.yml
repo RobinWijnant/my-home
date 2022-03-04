@@ -101,6 +101,8 @@ services:
     environment:
       - TZ=Europe/Brussels
       - WEBPASSWORD=admin
+      - ServerIP=192.168.1.10
+      - PIHOLE_DNS_=195.130.130.1;8.8.8.8
     volumes:
       - /home/pi/my-home/pihole/pihole:/etc/pihole
       - /home/pi/my-home/pihole/dnsmasq.d:/etc/dnsmasq.d
