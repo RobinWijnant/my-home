@@ -106,8 +106,8 @@ services:
       - PIHOLE_DNS_=195.130.130.1;8.8.8.8
       - WEBUIBOXEDLAYOUT=boxed
     volumes:
-      - /home/pi/my-home/pihole/pihole:/etc/pihole
-      - /home/pi/my-home/pihole/dnsmasq.d:/etc/dnsmasq.d
+      - /home/pi/pihole/pihole:/etc/pihole
+      - /home/pi/pihole/dnsmasq.d:/etc/dnsmasq.d
       - /home/pi/my-home/docker/pihole/lighttpd.conf:/etc/lighttpd/external.conf
     restart: unless-stopped
 
