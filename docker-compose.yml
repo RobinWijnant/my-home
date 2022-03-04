@@ -108,6 +108,7 @@ services:
     volumes:
       - /home/pi/my-home/pihole/pihole:/etc/pihole
       - /home/pi/my-home/pihole/dnsmasq.d:/etc/dnsmasq.d
+      - /home/pi/my-home/docker/pihole/lighttpd.conf:/etc/lighttpd/external.conf
     restart: unless-stopped
 
 volumes:
