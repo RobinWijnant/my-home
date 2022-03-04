@@ -18,7 +18,7 @@ services:
     ports:
       - "8081:80"
   proxy-manager:
-    image: jc21/nginx-proxy-manager:2.9.7
+    image: jc21/nginx-proxy-manager:2.9.16
     container_name: proxy-manager
     environment:
       DB_SQLITE_FILE: /data/database.sqlite
@@ -90,6 +90,20 @@ services:
       - 8880:8880 #optional
       - 6789:6789 #optional
       - 5514:5514/udp #optional
+    restart: unless-stopped
+  pihole:
+    container_name: pihole
+    image: pihole/pihole:v5.8.1
+    ports:
+      - "53:53/tcp" # dns
+      - "53:53/udp" # dns
+      - "8082:80/tcp" # stats web app
+    environment:
+      - TZ=Europe/Brussels
+      - WEBPASSWORD=admin
+    volumes:
+      - /home/pi/my-home/pihole/pihole:/etc/pihole
+      - /home/pi/my-home/pihole/dnsmasq.d:/etc/dnsmasq.d
     restart: unless-stopped
 
 volumes:
