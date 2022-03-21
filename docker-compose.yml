@@ -112,8 +112,9 @@ services:
     restart: unless-stopped
   airconnect:
     container_name: airconnect
-    image: 1activegeek/airconnect:latest
+    build: docker/airconnect
     network_mode: host
+    restart: unless-stopped
 
 
 volumes:
