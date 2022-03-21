@@ -1,7 +1,7 @@
-FROM ubuntu:17.10
+FROM ubuntu:18.04
 
 # Add Supervisor
-RUN apt-get install -y supervisor wget
+RUN apt-get update && apt-get install -y supervisor wget
 COPY supervisord.conf /etc
 
 # Download AirConnect
