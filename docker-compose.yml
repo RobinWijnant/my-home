@@ -110,6 +110,11 @@ services:
       - /home/pi/pihole/dnsmasq.d:/etc/dnsmasq.d
       - /home/pi/my-home/docker/pihole/lighttpd.conf:/etc/lighttpd/external.conf
     restart: unless-stopped
+  airconnect:
+    container_name: airconnect
+    image: 1activegeek/airconnect:latest
+    network_mode: host
+
 
 volumes:
   proxy-manager:
