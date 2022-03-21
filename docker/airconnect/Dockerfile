@@ -1,11 +1,5 @@
-FROM ubuntu:18.04
+FROM scratch
 
-# Add Supervisor
-RUN apt-get update && apt-get install -y supervisor wget
-COPY supervisord.conf /etc
+COPY aircast-arm.bin ./bin/aircast
 
-# Download AirConnect
-RUN wget --output-document=/bin/airupnp https://raw.githubusercontent.com/philippe44/AirConnect/master/bin/airupnp-arm && chmod +x /bin/airupnp
-RUN wget --output-document=/bin/aircast https://raw.githubusercontent.com/philippe44/AirConnect/master/bin/aircast-arm && chmod +x /bin/aircast
-
-ENTRYPOINT ["supervisord", "--nodaemon", "--configuration", "/etc/supervisord.conf"]
+ENTRYPOINT ["/bin/aircast"]
