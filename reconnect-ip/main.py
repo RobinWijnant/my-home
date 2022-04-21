@@ -10,7 +10,7 @@ load_dotenv()
 async def main():
     browser = await launch(
         ignoreHTTPSErrors=True,
-        headless=False,
+        headless=True,
         executablePath=os.getenv("CHROMIUM_PATH"),
     )
     page = await browser.newPage()
