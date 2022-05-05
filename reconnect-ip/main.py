@@ -14,13 +14,15 @@ async def main():
         executablePath=os.getenv("CHROMIUM_PATH"),
     )
     page = await browser.newPage()
-    await page.goto(os.getenv("UNIFI_CONTROLLER_URL"))
+    url = os.getenv("UNIFI_CONTROLLER_URL")
+    await page.goto(f"{url}/manage")
 
     # Login
     await page.waitForSelector("input[name=username]")
     await page.waitForSelector("input[name=password]")
     await page.type("input[name=username]", os.getenv("USERNAME"))
     await page.type("input[name=password]", os.getenv("PASSWORD"))
+    await page.waitFor(5000)
     await page.click("#loginButton")
 
     # Navigate to clients overview page
@@ -32,9 +34,10 @@ async def main():
         # Reconnect client with given ip
         await page.waitForSelector(f"span[data-label='{ip_address}']")
         await page.click(f"span[data-label='{ip_address}']")
-        await page.waitForSelector("button[name=reconnect-client]")
+        await page.waitForXPath("//button[contains(text(), Reconnect)]")
         await page.waitFor(1000)
-        await page.click("button[name=reconnect-client]")
+        reconnectButton = await page.xpath("//button[contains(text(), Reconnect)]")
+        reconnectButton[0].click()
 
         # Wait for the client to disappear
         await page.waitForFunction(
