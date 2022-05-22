@@ -18,7 +18,7 @@ services:
     ports:
       - "8081:80"
   proxy-manager:
-    image: jc21/nginx-proxy-manager:2.9.18
+    image: jc21/nginx-proxy-manager:2.9.14
     container_name: proxy-manager
     environment:
       DB_SQLITE_FILE: /data/database.sqlite
