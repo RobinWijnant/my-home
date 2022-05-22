@@ -22,7 +22,6 @@ async def main():
     await page.waitForSelector("input[name=password]")
     await page.type("input[name=username]", os.getenv("USERNAME"))
     await page.type("input[name=password]", os.getenv("PASSWORD"))
-    await page.waitFor(5000)
     await page.click("#loginButton")
 
     # Navigate to clients overview page
@@ -34,10 +33,12 @@ async def main():
         # Reconnect client with given ip
         await page.waitForSelector(f"span[data-label='{ip_address}']")
         await page.click(f"span[data-label='{ip_address}']")
-        await page.waitForXPath("//button[contains(text(), Reconnect)]")
+        await page.waitForXPath("//button/span/span/span[contains(text(), Reconnect)]")
         await page.waitFor(1000)
-        reconnectButton = await page.xpath("//button[contains(text(), Reconnect)]")
-        reconnectButton[0].click()
+        reconnectButton = await page.xpath(
+            "//button/span/span/span[contains(text(), Reconnect)]"
+        )
+        await reconnectButton[0].click()
 
         # Wait for the client to disappear
         await page.waitForFunction(
