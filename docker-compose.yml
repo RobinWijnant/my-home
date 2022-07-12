@@ -17,6 +17,7 @@ services:
       - /home/pi/home-assistant/media:/usr/share/nginx/html:ro
     ports:
       - "8081:80"
+    restart: unless-stopped
   proxy-manager:
     image: jc21/nginx-proxy-manager:2.9.14
     container_name: proxy-manager
