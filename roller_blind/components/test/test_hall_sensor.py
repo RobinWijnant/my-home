@@ -2,7 +2,7 @@ import time
 import unittest
 
 import board
-from components.hall_sensor import HallSensor
+from roller_blind.components.hall_sensor import HallSensor
 
 time.sleep(0.5)
 
