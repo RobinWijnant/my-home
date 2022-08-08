@@ -1,7 +1,7 @@
 import time
 import unittest
 
-from components.digital_hall_sensor import DigitalHallSensor
+from roller_blind.components.digital_hall_sensor import DigitalHallSensor
 
 SENSOR_PIN = 25
 
