@@ -1,7 +1,7 @@
 import time
 import unittest
 
-from src.components.stepper_motor import StepperMotor
+from components.stepper_motor import StepperMotor
 
 STEP_MODE_PINS = (14, 15, 18)
 DIRECTION_PIN = 23
