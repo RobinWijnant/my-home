@@ -45,7 +45,9 @@ def calibrate(value):
         logger.info("Calibration completed")
 
     thread_manager.stop()
-    thread_manager.execute(roller_blind.override_position, on_complete=on_complete)
+    thread_manager.execute(
+        roller_blind.override_position, value, on_complete=on_complete
+    )
 
 
 def interrupt():
