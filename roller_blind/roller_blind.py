@@ -2,7 +2,6 @@ from enum import Enum
 
 import sys
 import board
-from components.hall_sensor import HallSensor
 from components.stepper_motor import StepperMotor
 
 
@@ -27,21 +26,8 @@ class RollerBlind:
             RollerBlind.STEP_MODE_PINS,
             RollerBlind.STEP_SLEEP_PIN,
         )
-        self.hall_sensor = HallSensor(board.SCL, board.SDA)
         self.position = 0  # [0,1000]
         self.steps_for_1_position = self._convert_position_diff_to_steps(1)
-
-    def calibrate(self, stopped):
-        self.stepper.set_sleep(False)
-
-        while not self.hall_sensor.detect():
-            if stopped():
-                self.stepper.set_sleep(True)
-                return
-            self.stepper.go(self.steps_for_1_position, RollDirection.UP.value)
-
-        self.position = 0
-        self.stepper.set_sleep(True)
 
     def override_position(self, position):
         self.position = position

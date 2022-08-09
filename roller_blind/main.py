@@ -7,6 +7,7 @@ import paho.mqtt.client as mqtt
 from dotenv import load_dotenv
 
 sys.path.append("../packages")
+import common.logger
 from ha_config import get_config
 from roller_blind import RollerBlind
 from common.thread_manager import ThreadManager
