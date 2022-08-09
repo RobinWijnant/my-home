@@ -1,4 +1,4 @@
-def get_config(topic):
+def get_blind_config(topic):
     return {
         "name": "Window cover",
         "device_class": "blind",
@@ -15,4 +15,28 @@ def get_config(topic):
         "payload_stop": "STOP",
         "position_open": 0,
         "position_closed": 1000,
+    }
+
+
+def get_calibration_open_button_config(topic):
+    return {
+        "automation_type": "trigger",
+        "topic": topic,
+        "type": "button_short_press",
+        "subtype": "button_1",
+        "device": {
+            "name": "Calibrate as open",
+        },
+    }
+
+
+def get_calibration_closed_button_config(topic):
+    return {
+        "automation_type": "trigger",
+        "topic": topic,
+        "type": "button_short_press",
+        "subtype": "button_2",
+        "device": {
+            "name": "Calibrate as closed",
+        },
     }
