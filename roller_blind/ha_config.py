@@ -21,7 +21,7 @@ def get_blind_config(topic):
 def get_calibration_open_button_config(topic):
     return {
         "automation_type": "trigger",
-        "topic": topic,
+        "topic": f"{topic}/set",
         "type": "button_short_press",
         "device": {
             "identifiers": "rpi4-window-roller-blind-calibration",
@@ -36,7 +36,7 @@ def get_calibration_open_button_config(topic):
 def get_calibration_closed_button_config(topic):
     return {
         "automation_type": "trigger",
-        "topic": topic,
+        "topic": f"{topic}/set",
         "type": "button_short_press",
         "device": {
             "identifiers": "rpi4-window-roller-blind-calibration",

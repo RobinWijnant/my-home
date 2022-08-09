@@ -72,9 +72,9 @@ def on_connect(client, userdata, flags, rc):
 
 
 def on_message(client, userdata, message):
-    if message.topic == f"{calibration_open_topic}":
+    if message.topic == f"{calibration_open_topic}/set":
         calibrate(0)
-    elif message.topic == f"{calibration_closed_topic}":
+    elif message.topic == f"{calibration_closed_topic}/set":
         calibrate(1000)
     elif message.topic == f"{blind_topic}/set":
         if str(message.payload, "utf-8") == "OPEN":
