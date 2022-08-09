@@ -19,8 +19,12 @@ roller_blind = RollerBlind()
 client = mqtt.Client()
 thread_manager = ThreadManager()
 blind_topic = f"{os.getenv('MQTT_PREFIX')}/cover/{os.getenv('DEVICE_ID')}"
-calibration_open_topic = f"{os.getenv('MQTT_PREFIX')}/device_automation/{os.getenv('DEVICE_ID')}_calibration_open"
-calibration_closed_topic = f"{os.getenv('MQTT_PREFIX')}/device_automation/{os.getenv('DEVICE_ID')}_calibration_closed"
+calibration_open_topic = (
+    f"{os.getenv('MQTT_PREFIX')}/button/{os.getenv('DEVICE_ID')}_calibration_open"
+)
+calibration_closed_topic = (
+    f"{os.getenv('MQTT_PREFIX')}/button/{os.getenv('DEVICE_ID')}_calibration_closed"
+)
 
 
 def roll(value):
