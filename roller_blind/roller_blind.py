@@ -29,7 +29,7 @@ class RollerBlind:
         self.position = 0  # [0,1000]
         self.steps_for_1_position = self._convert_position_diff_to_steps(1)
 
-    def override_position(self, position):
+    def override_position(self, position, stopped):
         self.position = position
 
     def roll(self, position, stopped):
