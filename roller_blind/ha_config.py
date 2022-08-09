@@ -23,10 +23,13 @@ def get_calibration_open_button_config(topic):
         "automation_type": "trigger",
         "topic": topic,
         "type": "button_short_press",
-        "subtype": "button_1",
         "device": {
-            "name": "Calibrate as open",
+            "identifiers": "rpi4-window-roller-blind-calibration",
+            "manufacturer": "China",
+            "model": "Python 3.8",
+            "name": "Roller blind calibrator",
         },
+        "subtype": "button_1",
     }
 
 
@@ -35,8 +38,11 @@ def get_calibration_closed_button_config(topic):
         "automation_type": "trigger",
         "topic": topic,
         "type": "button_short_press",
-        "subtype": "button_2",
         "device": {
-            "name": "Calibrate as closed",
+            "identifiers": "rpi4-window-roller-blind-calibration",
+            "manufacturer": "China",
+            "model": "Python 3.8",
+            "name": "Roller blind calibrator",
         },
+        "subtype": "button_2",
     }
