@@ -60,11 +60,11 @@ def on_connect(client, userdata, flags, rc):
     client.publish(f"{blind_topic}/availability", "online", retain=True)
     client.subscribe(f"{blind_topic}/#")
 
-    config = ha.get_calibration_open_button_config(blind_topic)
+    config = ha.get_calibration_open_button_config(calibration_open_topic)
     client.publish(f"{calibration_open_topic}/config", json.dumps(config), retain=True)
     client.subscribe(f"{calibration_open_topic}/#")
 
-    config = ha.get_calibration_closed_button_config(blind_topic)
+    config = ha.get_calibration_closed_button_config(calibration_closed_topic)
     client.publish(
         f"{calibration_closed_topic}/config", json.dumps(config), retain=True
     )
