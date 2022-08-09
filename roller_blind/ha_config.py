@@ -32,7 +32,7 @@ def get_calibration_open_button_config(topic):
         "entity_category": "config",
         "device_class": "restart",
         "device": {
-            "identifiers": "rpi4-window-roller-blind-calibration",
+            "identifiers": "rpi4-window-blind-calibration",
             "manufacturer": "China",
             "model": "Python 3.8",
             "name": "Roller blind calibration",
@@ -54,7 +54,7 @@ def get_calibration_closed_button_config(topic):
         "entity_category": "config",
         "device_class": "restart",
         "device": {
-            "identifiers": "rpi4-window-roller-blind-calibration",
+            "identifiers": "rpi4-window-blind-calibration",
             "manufacturer": "China",
             "model": "Python 3.8",
             "name": "Roller blind calibration",
