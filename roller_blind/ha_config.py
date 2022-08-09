@@ -35,7 +35,7 @@ def get_calibration_open_button_config(topic):
             "identifiers": "rpi4-window-roller-blind-calibration",
             "manufacturer": "China",
             "model": "Python 3.8",
-            "name": "Roller blind calibrator",
+            "name": "Roller blind calibration",
         },
     }
 
@@ -57,6 +57,6 @@ def get_calibration_closed_button_config(topic):
             "identifiers": "rpi4-window-roller-blind-calibration",
             "manufacturer": "China",
             "model": "Python 3.8",
-            "name": "Roller blind calibrator",
+            "name": "Roller blind calibration",
         },
     }
