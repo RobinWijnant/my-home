@@ -62,12 +62,16 @@ def on_connect(client, userdata, flags, rc):
 
     config = ha.get_calibration_open_button_config(calibration_open_topic)
     client.publish(f"{calibration_open_topic}/config", json.dumps(config), retain=True)
+    client.will_set(f"{calibration_open_topic}/availability", "offline", retain=True)
+    client.publish(f"{calibration_open_topic}/availability", "online", retain=True)
     client.subscribe(f"{calibration_open_topic}/#")
 
     config = ha.get_calibration_closed_button_config(calibration_closed_topic)
     client.publish(
         f"{calibration_closed_topic}/config", json.dumps(config), retain=True
     )
+    client.will_set(f"{calibration_closed_topic}/availability", "offline", retain=True)
+    client.publish(f"{calibration_closed_topic}/availability", "online", retain=True)
     client.subscribe(f"{calibration_closed_topic}/#")
 
 
