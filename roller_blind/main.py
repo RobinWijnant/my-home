@@ -8,7 +8,6 @@ from dotenv import load_dotenv
 
 sys.path.append("../packages")
 from ha_config import get_config
-import common.logger
 from roller_blind import RollerBlind
 from common.thread_manager import ThreadManager
 
@@ -21,7 +20,7 @@ thread_manager = ThreadManager()
 topic = f"{os.getenv('MQTT_PREFIX')}/cover/{os.getenv('DEVICE_ID')}"
 
 
-def update_position(value):
+def roll(value):
     logger.info(f"Rolling from {roller_blind.position}‰ to position {value}‰...")
 
     def on_complete():
@@ -31,14 +30,15 @@ def update_position(value):
     thread_manager.execute(roller_blind.roll, value, on_complete=on_complete)
 
 
-def calibrate():
-    logger.info("Calibrating...")
+def calibrate(value):
+    logger.info(f"Overriding postion {value}‰...")
 
     def on_complete():
-        client.publish(f"{topic}/position", 0, retain=True)
+        client.publish(f"{topic}/position", value, retain=True)
         logger.info("Calibration completed")
 
-    thread_manager.execute(roller_blind.calibrate, on_complete=on_complete)
+    thread_manager.stop()
+    thread_manager.execute(roller_blind.override_position, on_complete=on_complete)
 
 
 def interrupt():
@@ -59,16 +59,14 @@ def on_connect(client, userdata, flags, rc):
 
 def on_message(client, userdata, message):
     if message.topic == f"{topic}/calibrate":
-        calibrate()
+        calibrate(int(message.payload))
     elif message.topic == f"{topic}/set":
         if str(message.payload, "utf-8") == "OPEN":
-            update_position(0)
+            roll(0)
         elif str(message.payload, "utf-8") == "CLOSE":
-            update_position(1000)
+            roll(1000)
         else:
             interrupt()
-    elif message.topic == f"{topic}/set_position":
-        update_position(int(message.payload))
 
 
 try:
@@ -78,7 +76,6 @@ try:
     client.on_connect = on_connect
     client.on_message = on_message
     client.connect(os.getenv("MQTT_HOST"))
-    calibrate()
     client.loop_forever()
 
 except KeyboardInterrupt:

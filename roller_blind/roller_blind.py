@@ -43,6 +43,9 @@ class RollerBlind:
         self.position = 0
         self.stepper.set_sleep(True)
 
+    def override_position(self, position):
+        self.position = position
+
     def roll(self, position, stopped):
         self.stepper.set_sleep(False)
 
@@ -56,7 +59,8 @@ class RollerBlind:
             if stopped():
                 break
             self.stepper.go(
-                self.steps_for_1_position, roll_direction.value,
+                self.steps_for_1_position,
+                roll_direction.value,
             )
             self.position = (
                 self.position + 1
