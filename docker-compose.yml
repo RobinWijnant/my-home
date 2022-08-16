@@ -2,7 +2,7 @@ version: "3.8"
 services:
   home-assistant:
     container_name: home-assistant
-    image: ghcr.io/home-assistant/raspberrypi4-homeassistant:2021.8.8
+    image: ghcr.io/home-assistant/raspberrypi4-homeassistant:2022.8.5
     volumes:
       - /home/pi/home-assistant/config:/config
       - /home/pi/home-assistant/media:/media
