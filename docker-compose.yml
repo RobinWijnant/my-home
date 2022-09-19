@@ -92,25 +92,6 @@ services:
       - 6789:6789 #optional
       - 5514:5514/udp #optional
     restart: unless-stopped
-  pihole:
-    container_name: pihole
-    image: pihole/pihole:v5.8.1
-    ports:
-      - "53:53/tcp" # dns
-      - "53:53/udp" # dns
-      - "8082:80/tcp" # stats web app
-    environment:
-      - TZ=Europe/Brussels
-      - WEBPASSWORD=admin
-      - ServerIP=192.168.1.10
-      - VIRTUAL_HOST=192.168.1.10
-      - PIHOLE_DNS_=195.130.130.1;8.8.8.8
-      - WEBUIBOXEDLAYOUT=boxed
-    volumes:
-      - /home/pi/pihole/pihole:/etc/pihole
-      - /home/pi/pihole/dnsmasq.d:/etc/dnsmasq.d
-      - /home/pi/my-home/docker/pihole/lighttpd.conf:/etc/lighttpd/external.conf
-    restart: unless-stopped
   airconnect:
     container_name: airconnect
     build: docker/airconnect
