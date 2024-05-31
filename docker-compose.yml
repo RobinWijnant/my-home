@@ -66,7 +66,7 @@ services:
     volumes:
       - node-red:/data
   esphome:
-    image: esphome/esphome:2021.8.0
+    image: esphome/esphome:2024.4.0
     container_name: esphome
     volumes:
       - /home/pi/my-home/esphome:/config
@@ -97,7 +97,6 @@ services:
     build: docker/airconnect
     network_mode: host
     restart: unless-stopped
-
 
 volumes:
   proxy-manager:
