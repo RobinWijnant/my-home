@@ -22,8 +22,8 @@ do
         # Note: Used --insecure because our DA instance doesn't return the complete intermediate certificate.
         # If yours does, it is probably a good idea to remove the --insecure flag
         # Browsers deal with this fine since they have the intermediate in their store. curl does not.
-        RESULT="$(curl -sS --insecure -u "${DA_USERNAME}:${DA_PASSWORD}" "${DA_URL}/CMD_API_DNS_CONTROL?domain=${ROOT_DOMAIN_NAME}&action=edit&arecs0=name%3D${RECORD}.%26value%3D${CONFIGURED_IP}&type=A&name=${RECORD}.&value=${CURRENT_IP}&json=yes")"
-        if [[ "$(echo "${RESULT}" | jq -r '.success')" == "record added" ]] ; then
+        RESULT="$(curl -sS --insecure -u "${DA_USERNAME}:${DA_PASSWORD}" "${DA_URL}/CMD_API_DNS_CONTROL?domain=${ROOT_DOMAIN_NAME}&action=edit&arecs0=name%3D${RECORD}%26value%3D${CONFIGURED_IP}&type=A&name=${RECORD}&value=${CURRENT_IP}&json=yes")"
+        if [[ "$(echo "${RESULT}" | jq -r '.success')" == "Record Edited" ]] ; then
             echo "Updated IP address for ${RECORD}.${ROOT_DOMAIN_NAME} on DirectAdmin from ${CONFIGURED_IP} to ${CURRENT_IP}! :)"
         else
             echo "Failed to update IP address for ${RECORD}.${ROOT_DOMAIN_NAME} on DirectAdmin from ${CONFIGURED_IP} to ${CURRENT_IP}! :(" >&2
