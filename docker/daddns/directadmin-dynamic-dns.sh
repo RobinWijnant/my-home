@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # Script for automatically updating the DNS records using the DirectAdmin API.
-# Requires you to have curl, dig and json installed.
+# Requires you to have curl, dig and jq installed.
 #
-# By Daniël van de Giessen, 2018-09-10
+# Inspired by
 # https://gist.github.com/DvdGiessen/b4203c69bf0c92f153ea05ed54d804c4
 
 # Get current external IP address of this machine
@@ -15,6 +15,8 @@ for RECORD in "${RECORDS[@]}"
 do
     # Get the currently configured IP address from the authoritive nameserver
     CONFIGURED_IP="$(dig +short "${RECORD}.${ROOT_DOMAIN_NAME}" A @$(dig +short "${ROOT_DOMAIN_NAME}" NS | head -n1))"
+
+    echo "Current DNS record for ${RECORD}.${ROOT_DOMAIN_NAME} is ${CONFIGURED_IP}. Current IP is ${CURRENT_IP}."
 
     # Check if the IP needs to be updated
     if [[ "${CONFIGURED_IP}" != "${CURRENT_IP}" ]] ; then
