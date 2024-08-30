@@ -1,4 +1,4 @@
-FROM nodered/node-red:1.3.6
+FROM nodered/node-red:4.0.2
 
 RUN npm install node-red-contrib-actionflows \
   node-red-contrib-home-assistant-websocket \

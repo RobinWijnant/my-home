@@ -1,0 +1,33 @@
+
+# Configure a default setup of Home Assistant (frontend, api, etc)
+default_config:
+
+http:
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - 172.16.0.0/12
+
+# Window cover & Beamer switch
+mqtt:
+
+# Google Assistant
+google_assistant:
+  project_id: home-assistant-294520
+  service_account: !include home-assistant-294520-caf48f3968d4.json
+  report_state: true
+  expose_by_default: false
+  entity_config:
+    cover.window_cover:
+      name: Window cover
+      room: Bedroom
+      expose: true
+    switch.beamer:
+      name: Beamer
+      room: Living room
+      expose: true
+
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+
