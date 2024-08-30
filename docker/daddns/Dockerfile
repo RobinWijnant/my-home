@@ -5,6 +5,7 @@ RUN apk add --no-cache bash curl bind-tools jq
 WORKDIR /app
 
 COPY directadmin-dynamic-dns.sh /app/directadmin-dynamic-dns.sh
+RUN chmod +x /app/directadmin-dynamic-dns.sh
 
 # Configure cron to run script every hour
 RUN mkdir /etc/cron
