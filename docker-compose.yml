@@ -10,8 +10,8 @@ services:
     restart: unless-stopped
     privileged: true
     network_mode: host
-  web-server:
-    container_name: web-server
+  media-server:
+    container_name: media-server
     image: nginx:1.21.3
     volumes:
       - /home/pi/home-assistant/media:/usr/share/nginx/html:ro
@@ -33,18 +33,11 @@ services:
       - proxy-manager:/data
       - letsencrypt:/etc/letsencrypt
     restart: unless-stopped
-  duckdns:
-    image: ghcr.io/linuxserver/duckdns:version-ce996582
-    container_name: duckdns
-    environment:
-      - PUID=1000 #optional
-      - PGID=1000 #optional
-      - TZ=Europe/Brussels
-      - SUBDOMAINS=kwak33
-      - TOKEN=91f6ab66-9cac-4503-8034-658943c4186a
-    volumes:
-      - duckdns:/config #optional
+  daddns:
+    container_name: daddns
+    build: docker/daddns
     restart: unless-stopped
+    env_file: ".env"
   mosquitto:
     image: eclipse-mosquitto:2.0
     container_name: mosquitto
@@ -92,15 +85,9 @@ services:
       - 6789:6789 #optional
       - 5514:5514/udp #optional
     restart: unless-stopped
-  airconnect:
-    container_name: airconnect
-    build: docker/airconnect
-    network_mode: host
-    restart: unless-stopped
 
 volumes:
   proxy-manager:
   letsencrypt:
-  duckdns:
   node-red:
   unifi-controller:
