@@ -37,7 +37,7 @@ services:
     container_name: daddns
     build: docker/daddns
     restart: unless-stopped
-    env_file: ".env"
+    env_file: "./docker/daddns/.env"
   mosquitto:
     image: eclipse-mosquitto:2.0
     container_name: mosquitto
