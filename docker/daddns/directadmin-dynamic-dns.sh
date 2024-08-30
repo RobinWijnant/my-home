@@ -9,12 +9,12 @@
 # Get current external IP address of this machine
 CURRENT_IP="$(dig +short myip.opendns.com @resolver1.opendns.com)"
 
-IFS=',' read -r -a DOMAINS <<< "${DOMAINNAMES}"
+IFS=',' read -r -a RECORDS <<< "${A_RECORDS}"
 
-for DOMAINNAME in "${DOMAINS[@]}"
+for RECORD in "${RECORDS[@]}"
 do
     # Get the currently configured IP address from the authoritive nameserver
-    CONFIGURED_IP="$(dig +short "${DOMAINNAME}" A @$(dig +short "${DOMAINNAME}" NS | head -n1))"
+    CONFIGURED_IP="$(dig +short "${RECORD}.${ROOT_DOMAIN_NAME}" A @$(dig +short "${ROOT_DOMAIN_NAME}" NS | head -n1))"
 
     # Check if the IP needs to be updated
     if [[ "${CONFIGURED_IP}" != "${CURRENT_IP}" ]] ; then
@@ -22,11 +22,11 @@ do
         # Note: Used --insecure because our DA instance doesn't return the complete intermediate certificate.
         # If yours does, it is probably a good idea to remove the --insecure flag
         # Browsers deal with this fine since they have the intermediate in their store. curl does not.
-        RESULT="$(curl -sS --insecure -u "${DA_USERNAME}:${DA_PASSWORD}" "${DA_URL}/CMD_API_DNS_CONTROL?domain=${DOMAINNAME}&action=edit&arecs0=name%3D${DOMAINNAME}.%26value%3D${CONFIGURED_IP}&type=A&name=${DOMAINNAME}.&value=${CURRENT_IP}&json=yes")"
+        RESULT="$(curl -sS --insecure -u "${DA_USERNAME}:${DA_PASSWORD}" "${DA_URL}/CMD_API_DNS_CONTROL?domain=${ROOT_DOMAIN_NAME}&action=edit&arecs0=name%3D${RECORD}.%26value%3D${CONFIGURED_IP}&type=A&name=${RECORD}.&value=${CURRENT_IP}&json=yes")"
         if [[ "$(echo "${RESULT}" | jq -r '.success')" == "record added" ]] ; then
-            echo "Updated IP address for ${DOMAINNAME} on DirectAdmin from ${CONFIGURED_IP} to ${CURRENT_IP}! :)"
+            echo "Updated IP address for ${RECORD}.${ROOT_DOMAIN_NAME} on DirectAdmin from ${CONFIGURED_IP} to ${CURRENT_IP}! :)"
         else
-            echo "Failed to update IP address for ${DOMAINNAME} on DirectAdmin from ${CONFIGURED_IP} to ${CURRENT_IP}! :(" >&2
+            echo "Failed to update IP address for ${RECORD}.${ROOT_DOMAIN_NAME} on DirectAdmin from ${CONFIGURED_IP} to ${CURRENT_IP}! :(" >&2
             echo "${RESULT}" >&2
         fi
     fi
