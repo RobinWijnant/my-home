@@ -6,4 +6,4 @@ WORKDIR /app
 
 COPY directadmin-dynamic-dns.sh /app/directadmin-dynamic-dns.sh
 
-CMD ["/app/directadmin-dynamic-dns.sh"]
+CMD ["/bin/bash", "/app/directadmin-dynamic-dns.sh"]
