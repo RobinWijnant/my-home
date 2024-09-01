@@ -66,28 +66,21 @@ services:
       - /etc/localtime:/etc/localtime:ro
     network_mode: host
     restart: unless-stopped
-  unifi-controller:
-    image: ghcr.io/linuxserver/unifi-controller:7.1.61
-    container_name: unifi-controller
+  unifi:
+    image: ghcr.io/jacobalberty/unifi-docker:v7.4.162
     environment:
-      - PUID=1000
-      - PGID=1000
+      - TZ=Europe/Brussels
     volumes:
-      - unifi-controller:/config
+      - /home/pi/unifi:/unifi
     ports:
       - 3478:3478/udp
       - 10001:10001/udp
       - 8080:8080
       - 8443:8443
-      - 1900:1900/udp #optional
-      - 8843:8843 #optional
-      - 8880:8880 #optional
-      - 6789:6789 #optional
-      - 5514:5514/udp #optional
+    user: unifi
     restart: unless-stopped
 
 volumes:
   proxy-manager:
   letsencrypt:
   node-red:
-  unifi-controller:
