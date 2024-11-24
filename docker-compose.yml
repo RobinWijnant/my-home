@@ -52,6 +52,7 @@ services:
     container_name: node-red
     environment:
       - TZ=Europe/Brussels
+      - GOOGLE_CLOUD_PROJECT=home-assistant-294520
     image: nodered/node-red
     restart: unless-stopped
     ports:

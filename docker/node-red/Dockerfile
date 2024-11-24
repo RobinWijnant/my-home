@@ -7,4 +7,5 @@ RUN npm install node-red-contrib-actionflows \
   node-red-contrib-timecheck \
   node-red-node-timeswitch \
   node-red-node-base64 \
-  node-red-node-suncalc
+  node-red-node-suncalc \
+  node-red-contrib-google-cloud
