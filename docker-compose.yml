@@ -68,7 +68,7 @@ services:
     network_mode: host
     restart: unless-stopped
   unifi:
-    image: ghcr.io/jacobalberty/unifi-docker:v9.4.19
+    image: ghcr.io/jacobalberty/unifi-docker:v7.4.162
     environment:
       - TZ=Europe/Brussels
     volumes:
